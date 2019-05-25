@@ -1,17 +1,23 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Header/>
+    <HelloWorld msg="This is a prop"/>
+    <section>
+        <b-button @click="clickMe">Click Me</b-button>
+    </section>
   </div>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
+import Header from './components/Header.vue'
 
+// Vue.use(Buefy)
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    HelloWorld,
+    Header
   }
 }
 </script>
