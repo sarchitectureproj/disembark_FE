@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar is-info" role="navigation" aria-label="main navigation">
+  <nav class="navbar is-twitter" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <button
         @click="makeBurger"
