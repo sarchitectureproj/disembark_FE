@@ -15,23 +15,20 @@
     <div id="navMenu" class="navbar-menu" v-bind:class="{ 'is-active': activator }">
       <div class="navbar-start">
         <a class="navbar-item"></a>
-
-        <a class="navbar-item">Home</a>
-        <a class="navbar-item">Passagners</a>
-        <a class="navbar-item">Luggage</a>
-        <a class="navbar-item">Deck</a>
-        <a class="navbar-item">Confiscated Items</a>
+        <router-link class="navbar-item" to="/">Home</router-link>
+        <router-link class="navbar-item" to="/passagners">Passagners</router-link>
+        <router-link class="navbar-item" to="/luggage">Luggage</router-link>
+        <router-link class="navbar-item" to="/deck">Deck</router-link>
+        <router-link class="navbar-item" to="/citems">Confiscated Items</router-link>
 
         <!-- nav-start -->
       </div>
-
       <!-- nav end -->
     </div>
   </nav>
 </template>
 
 <script>
-// Vue.use(Buefy)
 export default {
   name: "Header",
   data() {
