@@ -15,5 +15,10 @@ export default new Router({
             name: 'deck',
             component: () => import('./views/Deck.vue')
         },
+        {
+            path: '/citems',
+            name: 'citems',
+            component: () => import('./views/CItems.vue')
+        },
     ]
 })
