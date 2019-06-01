@@ -1,22 +1,26 @@
 <template>
   <div id="citems-body">
-    <Crew v-if="userRol==1"/>
-    <Passenger v-else-if="userRol==2"/>
-    <Guest v-else/>
+    <CrewRol v-if="userRol==1"/>
+    <PassengerRol v-else-if="userRol==2"/>
+    <GuestRol v-else/>
   </div>
 </template>
 
 <script>
 
-import Crew from '../components/citems/Crew'
-import Passenger from '../components/citems/Passenger'
-import Guest from '../components/citems/Guest'
+import CrewRol from '../components/citems/CrewRol'
+import PassengerRol from '../components/citems/PassengerRol'
+import GuestRol from '../components/citems/GuestRol'
+import axios from 'axios'
+
+const API_URL = 'http://192.168.99.102:5000/graphql';
+
 export default {
-  name: "home",
+  name: "CItems",
   components: {
-    Crew,
-    Passenger,
-    Guest
+    CrewRol,
+    PassengerRol,
+    GuestRol
   },
   data: function() {
     return {
