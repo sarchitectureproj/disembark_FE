@@ -15,5 +15,10 @@ export default new Router({
             name: 'deck',
             component: () => import('./views/Deck.vue')
         },
+        {
+            path: '/luggage',
+            name: 'luggage',
+            component: () => import('./views/Tag.vue')
+        },
     ]
 })
