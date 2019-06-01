@@ -15,11 +15,21 @@
     <div id="navMenu" class="navbar-menu" v-bind:class="{ 'is-active': activator }">
       <div class="navbar-start">
         <a class="navbar-item"></a>
-        <router-link class="navbar-item" to="/">Home</router-link>
-        <router-link class="navbar-item" to="/passagners">Passagners</router-link>
-        <router-link class="navbar-item" to="/luggage">Luggage</router-link>
-        <router-link class="navbar-item" to="/deck">Deck</router-link>
-        <router-link class="navbar-item" to="/citems">Confiscated Items</router-link>
+        <router-link class="navbar-item" to="/">
+          <i class="fas fa-3x fa-ship"></i>Home
+        </router-link>
+        <router-link class="navbar-item" to="/passagners">
+          <i class="fas fa-3x fa-users"></i>Passagners
+        </router-link>
+        <router-link class="navbar-item" to="/luggage">
+          <i class="fas fa-3x fa-luggage-cart"></i>Luggage
+        </router-link>
+        <router-link class="navbar-item" to="/deck">
+          <i class="fas fa-3x fa-layer-group"></i>Deck
+        </router-link>
+        <router-link class="navbar-item" to="/citems">
+          <i class="fas fa-3x fa-exclamation"></i> Confiscated Items
+        </router-link>
 
         <!-- nav-start -->
       </div>

@@ -1,7 +1,16 @@
 <template>
-    <div>
-        <h1>
-            Home page
-        </h1>
-    </div>
+  <div>
+    <Hero/>
+  </div>
 </template>
+
+<script>
+import Hero from '../components/Hero'
+export default {
+  name: "home",
+  components: {
+    Hero
+  }
+};
+</script>
+
