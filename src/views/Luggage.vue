@@ -3,14 +3,14 @@
     <div class="container notification">
       <div class="columns">
         <div class="column">
-          <CreateTag  />
+          <CreateLuggage  />
         </div>
       </div>
     </div>
     <div class="container notification">
       <div class="columns">
         <div class="column">
-          <ListTags :tags="alltags"/>
+          <ListLuggages :luggages="allluggages"/>
         </div>
       </div>
     </div>
@@ -18,34 +18,33 @@
 </template>
 <script>
 import axios from "axios";
-import ListTags from "../components/Luggage/ListTags";
-import CreateTag from "../components/Luggage/CreateTag";
 import ListLuggages from "../components/Luggage/ListLuggages";
 import CreateLuggage from "../components/Luggage/CreateLuggage";
 export default {
-  name: "tags",
+  name: "luggages",
   components: {
-    ListTags,
-    CreateTag
+    ListLuggages,
+    CreateLuggage
   },
   data: function() {
     return {
-      alltags: []
+      allluggages: []
     };
   },
   created: function() {
     // `this` points to the vm instance
     axios
       .post(`http://192.168.99.109:5000/graphql`, {
-        query: `{ allTags {
+        query: `{ allLuggages {
      id,
-     passenger_id,
-     cabin_id,
+     weight,
+     status,
+     tag_id,
    }}`
       })
       .then(res => {
-        console.log(res.data.data.allTags[0]);
-        this.alltags = res.data.data.allTags;
+        console.log(res.data.data.allLuggages[0]);
+        this.allluggages = res.data.data.allLuggages;
       })
       .catch(function(error) {
         console.log(error);

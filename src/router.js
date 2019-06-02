@@ -18,6 +18,16 @@ export default new Router({
         {
             path: '/luggage',
             name: 'luggage',
+            component: () => import('./views/LuggageMenu.vue')
+        },
+        {
+            path: '/luggage/viewLuggages',
+            name: 'luggage',
+            component: () => import('./views/Luggage.vue')
+        },
+        {
+            path: '/luggage/viewTags',
+            name: 'luggage',
             component: () => import('./views/Tag.vue')
         },
         

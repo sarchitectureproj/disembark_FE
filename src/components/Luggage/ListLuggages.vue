@@ -14,20 +14,27 @@
         aria-current-label="Current page"
       >
         <template slot-scope="props">
-          <b-table-column field="id" label="Tag ID" width="40" numeric>{{props.row.id}}</b-table-column>
+          <b-table-column field="id" label="Luggage id" width="40" centered="true" numeric>{{props.row.id}}</b-table-column>
+          <b-table-column 
+            field="weight" 
+            label="Weight (Kg)" 
+            width="40" 
+            centered="true"
+            numeric>{{props.row.weight}}</b-table-column>
           <b-table-column
-            field="passenger_id"
-            label="Passenger Id"
+            field="status"
+            label="Status"
+            width="100"
+            centered="true"
+          >{{props.row.status}}</b-table-column>
+          <b-table-column
+            field="tag_id"
+            label="Tag Id"
             width="10"
             centered="true"
-          >{{ props.row.passenger_id}}</b-table-column>
-          <b-table-column
-            field="cabin_id"
-            label="Cabin Id"
-            width="10"
-            centered="true"
-          >{{ props.row.cabin_id}}</b-table-column>
-          <b-table-column field="action" label="Action" width="120">
+          >{{ props.row.tag_id}}</b-table-column>
+
+          <b-table-column field="action" label="Action" width="40" centered="true">
             <b-button type="is-primary is small">
               <i class="fas fa-eye"></i>
             </b-button>
@@ -59,9 +66,9 @@ export default {
   },
   mounted: function() {
     setTimeout(() => {
-      const tags = this.$attrs.tags;
-      console.log(tags);
-      this.data = tags;
+      const luggages = this.$attrs.luggages;
+      console.log(luggages);
+      this.data = luggages;
       // console.log("this.data", this.$props.decks.data.allDeck )
     }, 500);
   }
