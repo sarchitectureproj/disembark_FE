@@ -31,14 +31,14 @@ export default {
   },
   data: function() {
     return {
-      userRol: 1,
+      userRol: 2,
       currentComponent: 'ItemList'
     };
   },
   computed: {
     currentProperties: function() {
       if (this.currentComponent === 'ItemList') {
-        return { userRol: '1', api_url: API_URL }
+        return { userRol: this.userRol, api_url: API_URL }
       }else{
         return { api_url: API_URL }
       }

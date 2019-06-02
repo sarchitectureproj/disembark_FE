@@ -23,8 +23,8 @@
                 <div class="control">
                     <input  class="input" type="text" v-model="itemData.category" :readonly="readMode">
                 </div>
-                <label class="label">Passenger</label>
-                <div class="control">
+                <label class="label" v-if="userRol==1">Passenger</label>
+                <div class="control" v-if="userRol==1">
                     <input  class="input" type="text" v-model="itemData.passenger" :readonly="readMode">
                 </div>
             </div>
@@ -33,8 +33,10 @@
                 <button @click="addItem(itemData)">Create</button>
             </div>
             <div v-else>
-                <button v-if="readMode" @click="readMode= false">Edit</button>
-                <button v-else @click="updateItem(itemData)">Update</button>
+                <div v-if="userRol==1">
+                    <button v-if="readMode" @click="readMode= false">Edit</button>
+                    <button v-else @click="updateItem(itemData)">Update</button>
+                </div>
             </div>
             <button @click="closePreview">Return</button>
         </div>
@@ -45,7 +47,7 @@
                     <h1>Items Table</h1>
                 </div>
                 <div class="column">
-                    <button @click="newItem">Add Item</button>
+                    <button @click="newItem" v-if="userRol==1">Add Item</button>
                 </div>
             </div>
             <div class="table-Body">
