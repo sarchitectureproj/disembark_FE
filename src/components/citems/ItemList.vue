@@ -19,7 +19,7 @@
                 </tr> 
             </thead>
             <tbody>
-                <tr v-for="item in allItems" :key="item.id" @click=openPreview(item) >
+                <tr v-for="item in allItems" :key="item.id" @click=fetchItemData(item) >
                     <td>{{ item.id }}</td>
                     <td>{{ item.name }}</td>
                     <td>{{ item.confiscation_date }}</td>
@@ -46,15 +46,61 @@
         },
         props: ['userRol'],
         methods: {
-            openPreview: function (item) {
-                this.previewItem = true;
-                this.itemData = item;
-                alert('Hello ' + this.itemData.name + '!');
-            },
             closePreview: function (){
                 this.previewItem = false;
             },
-            fetchItemData: function(item){
+            fetchItemData: async function(item){
+                this.previewItem = true;
+                this.itemData = item;
+                var query =  `
+                {
+                    categoryById(id:`+item.category+`){
+                        name
+                        description
+                        recoverable
+                        delivery
+                    }
+                }
+                `;
+                console.log(query);
+                try {
+                    var result = await axios({
+                        method: "POST",
+                        url: API_URL,
+                        data: {
+                        query: query
+                    }
+                    });
+                    this.itemCategory = result.data.data.categoryById;
+                    console.log(this.itemCategory)
+                } catch (error) {
+                    console.log(error);
+                }
+                var query =  `
+                {
+                    deliveryById(id:`+this.itemCategory.delivery+`){
+                        open_time
+                        close_time
+                        delivery_point
+                    }
+                }
+                `;
+                console.log(query);
+                try {
+                    var result = await axios({
+                        method: "POST",
+                        url: API_URL,
+                        data: {
+                        query: query
+                    }
+                    });
+                    this.itemDelivery = result.data.data.deliveryById;
+                    console.log(this.itemDelivery)
+                } catch (error) {
+                    alert("error");
+                    console.log(error);
+                }
+
             }
         },
         async mounted() {
@@ -87,20 +133,20 @@
             }
 
             try {
-            var result = await axios({
-                method: "POST",
-                url: API_URL,
-                data: {
-                query: query
-            }
-            });
-            if(this.userRol==2){
-                this.allItems = result.data.data.allItemsbyPass;
-            }else{
-                this.allItems = result.data.data.allItems;
-            }
+                var result = await axios({
+                    method: "POST",
+                    url: API_URL,
+                    data: {
+                    query: query
+                }
+                });
+                if(this.userRol==2){
+                    this.allItems = result.data.data.allItemsbyPass;
+                }else{
+                    this.allItems = result.data.data.allItems;
+                }
             } catch (error) {
-            console.error(error);
+                console.log(error);
             }
         }
     };
