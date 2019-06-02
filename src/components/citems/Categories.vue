@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <div v-if="previewCategory" class="FloatingPreview">
+        <div v-if="previewCategory" class="Preview box">
             <div class="field" id="category-fields">
                 <label class="label">Name</label>
                 <div class="control">
@@ -27,41 +27,54 @@
             <div v-else>
                 <button v-if="readMode" @click="readMode= false">Edit</button>
                 <button v-else @click="updateCategory(categoryData)">Update</button>
-                <button @click="deleteCategory(categoryData.id)">Delete</button>
             </div>
             <button @click="closePreview">Return</button>
 
         </div>
 
-        <div v-if="!previewCategory">
-            <button @click="newCategory">Add Category</button>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Recoverable</th>
-                        <th>Delivery</th>
-                    </tr> 
-                </thead>
-                <tbody>
-                    <tr v-for="category in allCategories" :key="category.id" @click=fetchcategoryData(category) >
-                        <td>{{ category.id }}</td>
-                        <td>{{ category.name }}</td>
-                        <td>{{ category.description }}</td>
-                        <td>{{ category.recoverable }}</td>
-                        <td>{{ category.delivery }}</td>
-                    </tr> 
-                </tbody>
-            </table>
+        <div v-if="!previewCategory" class="table-wrapper">
+           <div class="table-Head columns">
+                <div class="column">
+                    <h1>Categories Table</h1>
+                </div>
+                <div class="column">
+                    <button @click="newCategory">Add Category</button>
+                </div>
+            </div>
+            <div class="table-Body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>View</th>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Recoverable</th>
+                            <th>Delivery</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr> 
+                    </thead>
+                    <tbody>
+                        <tr v-for="category in allCategories" :key="category.id" >
+                            <td><a @click=viewCategory(category)>View</a></td>
+                            <td>{{ category.id }}</td>
+                            <td>{{ category.name }}</td>
+                            <td>{{ category.description }}</td>
+                            <td>{{ category.recoverable }}</td>
+                            <td>{{ category.delivery }}</td>
+                            <td><a @click=editCategory(category)>Edit</a></td>
+                            <td><a @click=deleteCategory(category.id)>Delete</a></td>
+                        </tr> 
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
     import axios from 'axios'
-    const API_URL = 'http://18.207.188.49:5000/graphql';
 
     export default {
         name: "Categories",
@@ -78,12 +91,12 @@
                 }
             };
         },
-        props: ['userRol'],
+        props: ['api_url'],
         methods: {
             axiosRequest: async function(query){
                 var result = await axios({
                     method: "POST",
-                    url: API_URL,
+                    url: this.api_url,
                     data: {
                         query: query
                     }
@@ -102,7 +115,7 @@
                 try {
                     var result = await axios({
                         method: "POST",
-                        url: API_URL,
+                        url: this.api_url,
                         data: {
                         query: query
                     }
@@ -118,8 +131,13 @@
                 this.readMode= true;
                 this.createMode = false;
             },
-            fetchcategoryData: function(category){
+            viewCategory: function(category){
                 this.previewCategory = true;
+                this.categoryData = category;
+            },
+            editCategory: function(category){
+                this.previewCategory = true;
+                this.readMode= false;
                 this.categoryData = category;
             },
             newCategory(){
@@ -174,7 +192,6 @@
                 }
             },
             deleteCategory: function(id){
-                this.readMode= true;
                 var query =  'mutation{deleteCategory(id: '+id+')}';
                 try {
                     this.axiosRequest(query);
@@ -182,7 +199,6 @@
                     console.log(error)
                 } finally{
                     this.fetchAllCategories();
-                    this.previewCategory = false;
                 }
 
             }

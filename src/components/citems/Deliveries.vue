@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <div v-if="previewDelivery" class="FloatingPreview">
+        <div v-if="previewDelivery" class="Preview box">
             <div class="field" id="delivery-fields">
                 <label class="label">oOpen Time</label>
                 <div class="control">
@@ -23,39 +23,53 @@
             <div v-else>
                 <button v-if="readMode" @click="readMode= false">Edit</button>
                 <button v-else @click="updateDelivery(deliveryData)">Update</button>
-                <button @click="deleteDelivery(deliveryData.id)">Delete</button>
             </div>
             <button @click="closePreview">Return</button>
 
         </div>
 
-        <div v-if="!previewDelivery">
-            <button @click="newDelivery">Add Delivery</button>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Open Time</th>
-                        <th>Close Time</th>
-                        <th>Delivery Point</th>
-                    </tr> 
-                </thead>
-                <tbody>
-                    <tr v-for="delivery in allDeliveries" :key="delivery.id" @click=fetchdeliveryData(delivery) >
-                        <td>{{ delivery.id }}</td>
-                        <td>{{ delivery.open_time }}</td>
-                        <td>{{ delivery.close_time }}</td>
-                        <td>{{ delivery.delivery_point }}</td>
-                    </tr> 
-                </tbody>
-            </table>
+        <div v-if="!previewDelivery" class="table-wrapper">
+           <div class="table-Head columns">
+                <div class="column">
+                    <h1>Deliveries Table</h1>
+                </div>
+                <div class="column">
+                    <button @click="newDelivery">Add Delivery</button>
+                </div>
+            </div>
+            
+            <div class="table-Body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>View</th>
+                            <th>ID</th>
+                            <th>Open Time</th>
+                            <th>Close Time</th>
+                            <th>Delivery Point</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr> 
+                    </thead>
+                    <tbody>
+                        <tr v-for="delivery in allDeliveries" :key="delivery.id" >
+                            <td><a @click=viewDelivery(delivery)>View</a></td>
+                            <td>{{ delivery.id }}</td>
+                            <td>{{ delivery.open_time }}</td>
+                            <td>{{ delivery.close_time }}</td>
+                            <td>{{ delivery.delivery_point }}</td>
+                            <td><a @click=editDelivery(delivery)>Edit</a></td>
+                            <td><a @click=deleteDelivery(delivery.id)>Delete</a></td>
+                        </tr> 
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
     import axios from 'axios'
-    const API_URL = 'http://18.207.188.49:5000/graphql';
 
     export default {
         name: "Deliveries",
@@ -71,12 +85,12 @@
                 }
             };
         },
-        props: ['userRol'],
+        props: ['api_url'],
         methods: {
             axiosRequest: async function(query){
                 var result = await axios({
                     method: "POST",
-                    url: API_URL,
+                    url: this.api_url,
                     data: {
                         query: query
                     }
@@ -91,10 +105,11 @@
                     close_time,
                     delivery_point
                 } }`;
+                console.log(this.api_url)
                 try {
                     var result = await axios({
                         method: "POST",
-                        url: API_URL,
+                        url: this.api_url,
                         data: {
                         query: query
                     }
@@ -110,8 +125,13 @@
                 this.readMode= true;
                 this.createMode = false;
             },
-            fetchdeliveryData: function(delivery){
+            viewDelivery: function(delivery){
                 this.previewDelivery = true;
+                this.deliveryData = delivery;
+            },
+            editDelivery: function(delivery){
+                this.previewDelivery = true;
+                this.readMode= false;
                 this.deliveryData = delivery;
             },
             newDelivery(){
@@ -163,7 +183,6 @@
                 }
             },
             deleteDelivery: function(id){
-                this.readMode= true;
                 var query =  'mutation{deleteDelivery(id: '+id+')}';
                 try {
                     this.axiosRequest(query);
@@ -171,7 +190,6 @@
                     console.log(error)
                 } finally{
                     this.fetchAllDeliveries();
-                    this.previewDelivery = false;
                 }
 
             }

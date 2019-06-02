@@ -20,7 +20,7 @@ import Categories from '../components/citems/Categories'
 import Deliveries from '../components/citems/Deliveries'
 import axios from 'axios'
 
-const API_URL = 'http://192.168.99.102:5000/graphql';
+const API_URL = 'http://35.174.13.1:5000/graphql';
 
 export default {
   name: "CItems",
@@ -38,7 +38,9 @@ export default {
   computed: {
     currentProperties: function() {
       if (this.currentComponent === 'ItemList') {
-        return { userRol: '1' }
+        return { userRol: '1', api_url: API_URL }
+      }else{
+        return { api_url: API_URL }
       }
     }
   }

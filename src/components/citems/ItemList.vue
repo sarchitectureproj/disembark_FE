@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <div v-if="previewItem" class="FloatingPreview">
+        <div v-if="previewItem" class="Preview box">
             <div class="field" id="item-fields">
                 <label class="label">Item Name</label>
                 <div class="control">
@@ -35,45 +35,58 @@
             <div v-else>
                 <button v-if="readMode" @click="readMode= false">Edit</button>
                 <button v-else @click="updateItem(itemData)">Update</button>
-                <button @click="deleteItem(itemData.id)">Delete</button>
             </div>
             <button @click="closePreview">Return</button>
-
         </div>
 
-        <div v-if="!previewItem">
-            <button @click="newItem">Add Item</button>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Confiscation Date</th>
-                        <th>Confiscation Time</th>
-                        <th>Quantity</th>
-                        <th>Category</th>
-                        <th v-if="userRol==1">Passenger</th>
-                    </tr> 
-                </thead>
-                <tbody>
-                    <tr v-for="item in allItems" :key="item.id" @click=fetchItemData(item) >
-                        <td>{{ item.id }}</td>
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.confiscation_date }}</td>
-                        <td>{{ item.confiscation_time }}</td>
-                        <td>{{ item.quantity }}</td>
-                        <td>{{ item.category }}</td>
-                        <td v-if="userRol==1">{{ item.passenger }}</td>
-                    </tr> 
-                </tbody>
-            </table>
+        <div v-if="!previewItem" class="table-wrapper">
+            <div class="table-Head columns">
+                <div class="column">
+                    <h1>Items Table</h1>
+                </div>
+                <div class="column">
+                    <button @click="newItem">Add Item</button>
+                </div>
+            </div>
+            <div class="table-Body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>View</th>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Confiscation Date</th>
+                            <th>Confiscation Time</th>
+                            <th>Quantity</th>
+                            <th>Category</th>
+                            <th v-if="userRol==1">Passenger</th>
+                            <th v-if="userRol==1">Edit</th>
+                            <th v-if="userRol==1">Delete</th>
+                        </tr> 
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in allItems" :key="item.id" >
+                            <td><a @click="viewItem(item)">View</a></td>
+                            <td>{{ item.id }}</td>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.confiscation_date }}</td>
+                            <td>{{ item.confiscation_time }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.category }}</td>
+                            <td v-if="userRol==1">{{ item.passenger }}</td>
+                            <td v-if="userRol==1"><a @click="editItem(item)">Edit</a></td>
+                            <td v-if="userRol==1"><a @click="deleteItem(item.id)">Delete</a></td>
+                            
+                        </tr> 
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
     import axios from 'axios'
-    const API_URL = 'http://18.207.188.49:5000/graphql';
 
     export default {
         name: "ItemList",
@@ -91,12 +104,12 @@
                 }
             };
         },
-        props: ['userRol'],
+        props: ['userRol', 'api_url'],
         methods: {
             axiosRequest: async function(query){
                 var result = await axios({
                     method: "POST",
-                    url: API_URL,
+                    url: this.api_url,
                     data: {
                         query: query
                     }
@@ -127,7 +140,7 @@
                 try {
                     var result = await axios({
                         method: "POST",
-                        url: API_URL,
+                        url: this.api_url,
                         data: {
                         query: query
                     }
@@ -146,8 +159,13 @@
                 this.readMode= true;
                 this.createMode = false;
             },
-            fetchItemData: function(item){
+            viewItem: function(item){
                 this.previewItem = true;
+                this.itemData = item;
+            },
+            editItem: function(item){
+                this.previewItem = true;
+                this.readMode= false;
                 this.itemData = item;
             },
             newItem(){
@@ -207,7 +225,6 @@
                 }
             },
             deleteItem: function(id){
-                this.readMode= true;
                 var query =  'mutation{deleteItem(id: '+id+')}';
                 try {
                     this.axiosRequest(query);
@@ -215,7 +232,6 @@
                     console.log(error)
                 } finally{
                     this.fetchAllItems();
-                    this.previewItem = false;
                 }
 
             }
