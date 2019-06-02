@@ -1,26 +1,35 @@
 <template>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Confiscation Date</th>
-                <th>Confiscation Time</th>
-                <th>Quantity</th>
-                <th>Category</th>
-            </tr> 
-        </thead>
-        <tbody>
-            <tr v-for="item in allItems" :key="item.id" @click=preview(item.id) >
-                <td>{{ item.id }}</td>
-                <td>{{ item.name }}</td>
-                <td>{{ item.confiscation_date }}</td>
-                <td>{{ item.confiscation_time }}</td>
-                <td>{{ item.quantity }}</td>
-                <td>{{ item.category }}</td>
-            </tr> 
-        </tbody>
-    </table>
+    <div>
+
+        <div v-if="previewItem" class="FloatingPreview">
+            <a @click="closePreview"><b>Close</b></a>
+            <p>{{ itemData.id }}</p>
+            
+        </div>
+
+        <table v-if="!previewItem" class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Confiscation Date</th>
+                    <th>Confiscation Time</th>
+                    <th>Quantity</th>
+                    <th>Category</th>
+                </tr> 
+            </thead>
+            <tbody>
+                <tr v-for="item in allItems" :key="item.id" @click=openPreview(item) >
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.confiscation_date }}</td>
+                    <td>{{ item.confiscation_time }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.category }}</td>
+                </tr> 
+            </tbody>
+        </table>
+    </div>
 </template>
 
 <script>
@@ -31,13 +40,21 @@
         name: "ItemList",
         data: function() {
             return {
-                allItems: []
+                allItems: [],
+                previewItem: false
             };
         },
         props: ['userRol'],
         methods: {
-            preview: function (message) {
-                alert('Hello ' + message + '!')
+            openPreview: function (item) {
+                this.previewItem = true;
+                this.itemData = item;
+                alert('Hello ' + this.itemData.name + '!');
+            },
+            closePreview: function (){
+                this.previewItem = false;
+            },
+            fetchItemData: function(item){
             }
         },
         async mounted() {
