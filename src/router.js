@@ -20,5 +20,6 @@ export default new Router({
             name: 'luggage',
             component: () => import('./views/Tag.vue')
         },
+        
     ]
 })

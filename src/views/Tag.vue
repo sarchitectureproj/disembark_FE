@@ -1,22 +1,48 @@
 <template>
-    <div class="container notification">
-        <div class="columns">
-            <div class="column">
-                <ListTags/>
-            </div>
-            <div class="column">
-                
-            </div>     
-        </div>    
+  <div>
+    <div>
+      
     </div>
+    <div class="container notification">
+      <div class="columns">
+        <div class="column">
+          <ListTags :tags="alltags"/>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
+import axios from "axios";
 import ListTags from "../components/Luggage/ListTags";
 export default {
-    name: "tags",
-    components: {
-        ListTags
-    },
+  name: "tags",
+  components: {
+    ListTags
+  },
+  data: function() {
+    return {
+      alltags: []
+    };
+  },
+  created: function() {
+    // `this` points to the vm instance
+    axios
+      .post(`http://192.168.99.109:5000/graphql`, {
+        query: `{ allTags {
+     id,
+     passenger_id,
+     cabin_id,
+   }}`
+      })
+      .then(res => {
+        console.log(res.data.data.allTags[0]);
+        this.alltags = res.data.data.allTags;
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
 };
 </script>
 
