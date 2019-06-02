@@ -26,26 +26,20 @@
             <b-datepicker
               v-model="dates[props.index]"
               size="is-small"
-              placeholder="select a date..."
+              placeholder="DATE"
               editable
             ></b-datepicker>
           </b-table-column>
           <b-table-column label="Set hour">
             <b-clockpicker
-              editable
+              placeholder="HOUR"
+              v-bind:id="['id'+props.index]"
               v-model="hours[props.index]"
-              placeholder="Select hour"
               size="is-small"
-            >
-                  <button class="button is-primary"
-                    @click="hours[props.index] = new Date()">
-                    <b-icon icon="clock"></b-icon>
-                    <span>Set</span>
-                </button>
-            </b-clockpicker>
+            ></b-clockpicker>
           </b-table-column>
           <b-table-column>
-            <button class="button is-small is-info" v-on:click="test(props)">Set</button>
+            <button class="button is-small is-info" v-on:click="setScheduleRequest(props)">Set</button>
           </b-table-column>
         </template>
       </b-table>
@@ -56,6 +50,7 @@
 <script>
 import { setTimeout } from "timers";
 import axios from "axios";
+
 export default {
   name: "ListDecks",
   props: {
@@ -64,7 +59,6 @@ export default {
   data() {
     return {
       data: undefined,
-      tas: null,
       dates: [],
       hours: []
     };
@@ -72,24 +66,61 @@ export default {
   mounted: function() {
     setTimeout(() => {
       let array;
-      const decks = this.$props.decks.data.allDeck;
-      // console.log("this.data", this.$props.decks.data.allDeck )
+      let decks = this.$props.decks.data.allDeck;
+      console.log("this.data", this.$props.decks.data.allDeck);
       this.data = decks;
-      array = new Array(decks.length).fill(new Date());
+      array = new Array(decks.length).fill(null);
       this.dates = [...array];
       this.hours = [...array];
     }, 500);
   },
 
   methods: {
-    test: function(props) {
+    setScheduleRequest: function(props) {
       const date = new Date(this.dates[props.index]);
-      const hour = new Date(this.hours[props.index]);
-      const dateToSend = `${date.getFullYear()}/${date.getMonth()}/${date.getDay()}`;
-      const hourToSend = `${hour.getHours()}:${hour.getMinutes()}`;
+      const input = document.getElementById(`id${props.index}`).value; //hour
+      let month;
+      if (date.getMonth() + 1 < 10) {
+        month = `0${date.getMonth() + 1}`;
+      } else {
+        month = date.getMonth() + 1;
+      }
+      // console.log(date)
+      // console.log(date.getMonth() + 1)
+      // console.log(date.getDate())
 
-      alert(dateToSend);
-      alert(hour);
+      const dateToSend = `${date.getFullYear()}/${month}/${date.getDate()}`;
+      const hourToSend = input;
+      const meeting_schedule = `${dateToSend} ${hourToSend}`;
+      const floor = this.data[props.index].floor;
+      const id = this.data[props.index]._id;
+      axios
+        .post(`http://192.168.99.106:5000/graphql`, {
+          query: ` mutation{
+  updateDeck (id: "${id}", deck: {
+    floor: ${floor},
+    meeting_schedule: "${meeting_schedule}"
+  }){
+    _id,floor,meeting_schedule,
+  }
+}`
+        })
+        .then(res => {
+          let newData = [...this.data];
+          newData[props.index] = res.data.data.updateDeck;
+          this.data = newData;
+          this.$dialog.alert({
+            title: "Everything looks fine!",
+            message: `the floor ${newData[props.index].floor} was modifiqued`,
+            type: "is-success"
+          });
+          // this.data[props.index] = res.data.data.updateDeck;
+          // this.data[props.index] = res.data.data.updateDeck;
+          // console.log(this.data);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     }
   }
 };

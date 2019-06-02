@@ -1,12 +1,11 @@
 <template>
-  <div class="container notification">
+  <div class="notification">
     <div class="columns">
-      <div class="column is-9">
+      <div class="column is-5">
         <ListDecks :decks="decks"/>
       </div>
       <div class="column">
-        <h1 class="title">
-        </h1>
+        <h1 class="title"></h1>
       </div>
     </div>
   </div>
@@ -23,9 +22,11 @@ export default {
   data: function() {
     return {
       test: "hey",
-      decks: {data: {
-        alldecks: []
-      }}
+      decks: {
+        data: {
+          alldecks: []
+        }
+      }
     };
   },
   created: function() {
@@ -43,10 +44,10 @@ export default {
         this.decks = res.data;
       })
       .catch(function(error) {
-        console.log(error)
+        console.log(error);
       });
-  },
-  
+  }
+
   // `this` points to the vm instance
 };
 </script>
