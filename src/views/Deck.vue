@@ -1,10 +1,11 @@
 <template>
   <div class="notification">
     <div class="columns">
-      <div class="column is-5">
-        <ListDecks :decks="decks"/>
+      <div class="column is-6">
+        <ListDecks :decks="decks" :showCabins="showCabins"/>
       </div>
-      <div class="column">
+      <div class="column is-3">
+        <ListCabins :cabins="allcabins" :floor="floor"/>
         <h1 class="title"></h1>
       </div>
     </div>
@@ -14,10 +15,13 @@
 <script>
 import axios from "axios";
 import ListDecks from "../components/deck/ListDecks";
+import ListCabins from "../components/deck/ListCabins";
+import GRAPHQL_URL from '../server'
 export default {
   name: "deck",
   components: {
-    ListDecks
+    ListDecks,
+    ListCabins
   },
   data: function() {
     return {
@@ -26,12 +30,14 @@ export default {
         data: {
           alldecks: []
         }
-      }
+      },
+      allcabins: undefined,
+      floor: undefined
     };
   },
   created: function() {
     axios
-      .post(`http://192.168.99.106:5000/graphql`, {
+      .post(GRAPHQL_URL, {
         query: `{ allDeck { 
             meeting_schedule
             meeting_point_id
@@ -46,6 +52,29 @@ export default {
       .catch(function(error) {
         console.log(error);
       });
+  },
+  methods: {
+    showCabins: function(id, floor) {
+      //:id deck
+      axios
+        .post(GRAPHQL_URL, {
+          query: `{ cabinsBydeckId(id: "${id}") { 
+            _id,
+            position,
+            capacity,
+            category
+            }
+        }`
+        })
+        .then(res => {
+          this.allcabins = res.data.data.cabinsBydeckId;
+          this.floor = floor;
+          console.log(res.data.data.cabinsBydeckId);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
   }
 
   // `this` points to the vm instance

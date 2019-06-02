@@ -11,24 +11,21 @@
       </section>
     </div>
     <div v-else>
+      <h1 class="subtitle has-background-dark has-text-white-ter box">Decks</h1>
+
       <b-table :data="data">
         <template slot-scope="props">
-          <b-table-column field="id" label="Floor" width="40" numeric>{{ props.row.floor}}</b-table-column>
-          <b-table-column field="date" label="Meeting schedule" centered>
+          <b-table-column  class ="has-text-weight-bold" label="Floor" width="40" numeric>{{ props.row.floor}}</b-table-column>
+          <b-table-column  label="Meeting schedule" centered>
             <span
               v-if="props.row.meeting_schedule !== null"
-              class="tag is-success"
+              class="tag is-success has-text-weight-bold"
             >{{ props.row.meeting_schedule }}</span>
             <span v-else class="tag is-warning">----------</span>
           </b-table-column>
 
           <b-table-column label="Set Date">
-            <b-datepicker
-              v-model="dates[props.index]"
-              size="is-small"
-              placeholder="DATE"
-              editable
-            ></b-datepicker>
+            <b-datepicker v-model="dates[props.index]" size="is-small" placeholder="DATE" editable></b-datepicker>
           </b-table-column>
           <b-table-column label="Set hour">
             <b-clockpicker
@@ -41,6 +38,12 @@
           <b-table-column>
             <button class="button is-small is-info" v-on:click="setScheduleRequest(props)">Set</button>
           </b-table-column>
+          <b-table-column>
+            <button
+              class="button is-small is-dark"
+              v-on:click="showCabins(props.row._id, props.row.floor)"
+            >Cabins</button>
+          </b-table-column>
         </template>
       </b-table>
     </div>
@@ -50,11 +53,12 @@
 <script>
 import { setTimeout } from "timers";
 import axios from "axios";
-
+import GRAPHQL_URL from '../../server'
 export default {
   name: "ListDecks",
   props: {
-    decks: Object
+    decks: Object,
+    showCabins: Function
   },
   data() {
     return {
@@ -95,7 +99,7 @@ export default {
       const floor = this.data[props.index].floor;
       const id = this.data[props.index]._id;
       axios
-        .post(`http://192.168.99.106:5000/graphql`, {
+        .post(GRAPHQL_URL, {
           query: ` mutation{
   updateDeck (id: "${id}", deck: {
     floor: ${floor},
