@@ -15,5 +15,31 @@ export default new Router({
             name: 'deck',
             component: () => import('./views/Deck.vue')
         },
+	//PASSENGER ROUTES
+	{
+            path: '/passengers',
+            name: 'passenger',
+            component: () => import('./views/Passenger/IndexPassenger.vue')
+        },
+	{
+            path: '/passengers/new',
+            name: 'new passenger',
+            component: () => import('./views/Passenger/NewPassenger.vue')
+        },
+	{
+            path: '/passengers/edit',
+            name: 'edit passenger',
+            component: () => import('./views/Passenger/EditPassenger.vue')
+        },
+	{
+            path: '/passengers/show',
+            name: 'show passenger',
+            component: () => import('./views/Passenger/ShowPassenger.vue')
+        },
+	{
+            path: '/passengers/delete',
+            name: 'show passenger',
+            component: () => import('./views/Passenger/DeletePassenger.vue')
+        },
     ]
 })

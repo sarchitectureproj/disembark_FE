@@ -18,8 +18,8 @@
         <router-link class="navbar-item" to="/">
           <i class="fas fa-3x fa-ship"></i>Home
         </router-link>
-        <router-link class="navbar-item" to="/passagners">
-          <i class="fas fa-3x fa-users"></i>Passagners
+        <router-link class="navbar-item" to="/passengers">
+          <i class="fas fa-3x fa-users"></i>Passengers
         </router-link>
         <router-link class="navbar-item" to="/luggage">
           <i class="fas fa-3x fa-luggage-cart"></i>Luggage
