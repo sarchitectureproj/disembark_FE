@@ -1,7 +1,7 @@
 <template>
   <div class="notification">
     <div class="columns">
-      <div class="column is-6">
+      <div class="column is-9">
         <ListDecks :decks="decks" :showCabins="showCabins"/>
       </div>
       <div class="column is-3">

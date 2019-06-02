@@ -44,10 +44,6 @@
 </template>
 
 <script>
-import { setTimeout } from "timers";
-import axios from "axios";
-import GRAPHQL_URL from "../../server";
-
 export default {
   name: "ListCabins",
   props: {

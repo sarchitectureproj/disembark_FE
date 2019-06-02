@@ -15,5 +15,10 @@ export default new Router({
             name: 'deck',
             component: () => import('./views/Deck.vue')
         },
+        {
+            path: '/meeting_points',
+            name: 'meetingPoint',
+            component: () => import('./views/MeetingPoint.vue')
+        },
     ]
 })

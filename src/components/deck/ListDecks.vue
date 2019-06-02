@@ -15,8 +15,13 @@
 
       <b-table :data="data">
         <template slot-scope="props">
-          <b-table-column  class ="has-text-weight-bold" label="Floor" width="40" numeric>{{ props.row.floor}}</b-table-column>
-          <b-table-column  label="Meeting schedule" centered>
+          <b-table-column
+            class="has-text-weight-bold"
+            label="Floor"
+            width="40"
+            numeric
+          >{{ props.row.floor}}</b-table-column>
+          <b-table-column label="Meeting schedule" centered>
             <span
               v-if="props.row.meeting_schedule !== null"
               class="tag is-success has-text-weight-bold"
@@ -25,7 +30,7 @@
           </b-table-column>
 
           <b-table-column label="Set Date">
-            <b-datepicker v-model="dates[props.index]" size="is-small" placeholder="DATE" editable></b-datepicker>
+            <b-datepicker v-model="dates[props.index]" size="is-small" placeholder="DATE"></b-datepicker>
           </b-table-column>
           <b-table-column label="Set hour">
             <b-clockpicker
@@ -40,7 +45,7 @@
           </b-table-column>
           <b-table-column>
             <button
-              class="button is-small is-dark"
+              class="button is-smalu is-dark"
               v-on:click="showCabins(props.row._id, props.row.floor)"
             >Cabins</button>
           </b-table-column>
@@ -53,7 +58,7 @@
 <script>
 import { setTimeout } from "timers";
 import axios from "axios";
-import GRAPHQL_URL from '../../server'
+import GRAPHQL_URL from "../../server";
 export default {
   name: "ListDecks",
   props: {
