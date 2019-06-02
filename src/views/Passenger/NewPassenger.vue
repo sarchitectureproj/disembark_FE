@@ -8,49 +8,49 @@
 						<div class="column">
 							<div class="form-group">
 								<label for="">Nombres</label>
-								<input type="text">
+								<input v-model="first_name_input" type="text" placeholder="Nombres">
 							</div>
 							<div class="form-group">
 								<label for="">Apellidos</label>
-								<input type="text">
+								<input v-model="last_name_input" type="text" placeholder="Apellidos">
 							</div>
 							<div class="form-group">
 								<label for="">Edad</label>
-								<input type="text">
+								<input v-model="age_input" type="text" placeholder="Edad">
 							</div>
 							<div class="form-group">
 								<label for="">Género</label>
-								<input type="text">
+								<input v-model="gender_input" type="text" placeholder="Género">
 							</div>
 							<div class="form-group">
 								<label for="">E-mail</label>
-								<input type="text">
+								<input v-model="email_input" type="text" placeholder="E-mail">
 							</div>
 						</div>
 						<div class="column">
 							<div class="form-group">
 								<label for="">Teléfono</label>
-								<input type="text">
+								<input v-model="phone_number_input" type="text" placeholder="Teléfono">
 							</div>
 							<div class="form-group">
 								<label for="">Fecha de nacimiento (DD-MM-YYYY)</label>
-								<input type="text">
+								<input v-model="birthdate_input" type="text" placeholder="Fecha de nacimiento">
 							</div>
 							<div class="form-group">
 								<label for="">Ocupación</label>
-								<input type="text">
+								<input v-model="occupation_input" type="text" placeholder="Ocupación">
 							</div>
 							<div class="form-group">
 								<label for="">Nacionalidad</label>
-								<input type="text">
+								<input v-model="nationality_input" type="text" placeholder="Nacionalidad">
 							</div>
 							<div class="form-group">
 								<label for="">Lengua nativa</label>
-								<input type="text">
+								<input v-model="native_language_input" type="text" placeholder="Lengua nativa">
 							</div>
 						</div>
 					</div>
-					 <input id="submitBtn" type="submit" value="Enviar"> 
+					 <input id="submitBtn" value="Enviar" @click="crearPasajero"> 
 				</form>
 		</div>
 </template>
@@ -58,3 +58,52 @@
 <style lang = "scss">
 	@import "../../styles/passenger.css";
 </style>
+
+<script>
+	import axios from "axios";
+	export default {
+		name: "createPassenger",
+		data(){
+			return {
+				first_name_input: null,
+				last_name_input: null,
+				age_input: null,
+				gender_input: null,
+				email_input: null,
+				phone_number_input: null,
+				birthdate_input: null,
+				occupation_input: null,
+				nationality_input: null,
+				native_language_input: null
+			};
+		},
+		created(){
+			
+		},
+		methods: {
+			crearPasajero(){
+				axios.post('http://dnode2.centralus.cloudapp.azure.com:5000/graphql',{
+					query: `mutation {
+						createPassenger(passenger: {
+							first_name: "${this.first_name_input}"
+							last_name: "${this.last_name_input}"
+							age: ${this.age_input}
+							gender: "${this.gender_input}"
+							email: "${this.email_input}"
+							phone_number: "${this.phone_number_input}"
+							birthdate: "${this.birthdate_input}"
+							occupation: "${this.occupation_input}"
+							nationality: "${this.nationality_input}"
+							native_language: "${this.native_language_input}"
+						}) {
+							first_name
+						}
+					}`
+				}).then(res => this.$notification.open({
+					message: "Pasajero creado exitosamente!" 
+				}))
+				.catch(error => console.log(error));
+			}
+		}
+	}
+</script>

@@ -5,21 +5,21 @@
 					<a>Crear Pasajero</a>
 				</router-link>
 			</li>
-			<li>
+			<!--<li>
 				<router-link to="/passengers/edit">
 					<a>Actualizar Pasajero</a>
 				</router-link>
-			</li>
+			</li>-->
 			<li>
 				<router-link to="/passengers/show">
 					<a>Ver Pasajero</a>
 				</router-link>
 			</li>
-			<li>
+			<!--<li>
 				<router-link to="/passengers/delete">
 					<a>Eliminar Pasajero</a>
 				</router-link>
-			</li>
+			</li>-->
 	    </ul>
 </template>
 

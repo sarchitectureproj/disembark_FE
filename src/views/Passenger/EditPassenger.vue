@@ -4,6 +4,8 @@
 					<h2>
 						Actualizar Pasajero
 					</h2>
+					<label for="">Ingrese id del pasajero</label>
+					<input v-model="id_input" type="text" placeholder="Identificación">
 					<div class="columns">
 						<div class="column">
 							<div class="form-group">
@@ -50,6 +52,7 @@
 							</div>
 						</div>
 					</div>
+					 <button @click="cargarInfo">Enviar</button>
 					 <input id="submitBtn" type="submit" value="Enviar"> 
 				</form>
 		</div>
@@ -58,3 +61,6 @@
 <style lang = "scss">
 	@import "../../styles/passenger.css";
 </style>
+
+<script>
+</script>
