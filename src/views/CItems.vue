@@ -1,9 +1,13 @@
 <template>
+
+
   <div id="citems-body">
-    <div v-if="userRol==1">
-      <a v-on:click="currentComponent='ItemList'">Items</a>
-      <a v-on:click="currentComponent='Categories'">Categories</a>
-      <a v-on:click="currentComponent='Deliveries'">Deliveries</a>
+    <div class="tabs" v-if="userRol==1">
+      <ul>
+        <li v-on:click="currentComponent='ItemList'" class="is-active"><a>Items</a></li>
+        <li v-on:click="currentComponent='Categories'"><a>Categories</a></li>
+        <li v-on:click="currentComponent='Deliveries'"><a>Deliveries</a></li>
+      </ul>
     </div>
     <component :is="currentComponent" v-bind="currentProperties"></component>
   </div>
