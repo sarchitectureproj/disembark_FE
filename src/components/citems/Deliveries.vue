@@ -1,69 +1,51 @@
 <template>
     <div>
 
-        <div v-if="previewItem" class="FloatingPreview">
-            <div class="field" id="category-fields">
-                <label class="label">Item Name</label>
+        <div v-if="previewDelivery" class="FloatingPreview">
+            <div class="field" id="delivery-fields">
+                <label class="label">oOpen Time</label>
                 <div class="control">
-                    <input  class="input" type="text" v-model="categoryData.name" :readonly="readMode">
+                    <input  class="input" type="text" v-model="deliveryData.open_time" :readonly="readMode">
                 </div>
-                <label class="label">Confiscation Date</label>
+                <label class="label">Close Time</label>
                 <div class="control">
-                    <input  class="input" type="text" v-model="categoryData.confiscation_date" :readonly="readMode">
+                    <input  class="input" type="text" v-model="deliveryData.close_time" :readonly="readMode">
                 </div>
-                <label class="label">Confiscation Time</label>
+                <label class="label">Delivery Point</label>
                 <div class="control">
-                    <input  class="input" type="text" v-model="categoryData.confiscation_time" :readonly="readMode">
-                </div>
-                <label class="label">Quantity</label>
-                <div class="control">
-                    <input  class="input" type="text" v-model="categoryData.quantity" :readonly="readMode">
-                </div>
-                <label class="label">Category</label>
-                <div class="control">
-                    <input  class="input" type="text" v-model="categoryData.category" :readonly="readMode">
-                </div>
-                <label class="label">Passenger</label>
-                <div class="control">
-                    <input  class="input" type="text" v-model="categoryData.passenger" :readonly="readMode">
+                    <input  class="input" type="text" v-model="deliveryData.delivery_point" :readonly="readMode">
                 </div>
             </div>
 
             <div v-if="createMode">
-                <button @click="addItem(categoryData)">Create</button>
+                <button @click="addDelivery(deliveryData)">Create</button>
             </div>
             <div v-else>
                 <button v-if="readMode" @click="readMode= false">Edit</button>
-                <button v-else @click="updateItem(categoryData)">Update</button>
-                <button @click="deleteItem(categoryData.id)">Delete</button>
+                <button v-else @click="updateDelivery(deliveryData)">Update</button>
+                <button @click="deleteDelivery(deliveryData.id)">Delete</button>
             </div>
             <button @click="closePreview">Return</button>
 
         </div>
 
-        <div v-if="!previewItem">
-            <button @click="newItem">Add Item</button>
+        <div v-if="!previewDelivery">
+            <button @click="newDelivery">Add Delivery</button>
             <table class="table">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Name</th>
-                        <th>Confiscation Date</th>
-                        <th>Confiscation Time</th>
-                        <th>Quantity</th>
-                        <th>Category</th>
-                        <th v-if="userRol==1">Passenger</th>
+                        <th>Open Time</th>
+                        <th>Close Time</th>
+                        <th>Delivery Point</th>
                     </tr> 
                 </thead>
                 <tbody>
-                    <tr v-for="category in allItems" :key="category.id" @click=fetchItemData(category) >
-                        <td>{{ category.id }}</td>
-                        <td>{{ category.name }}</td>
-                        <td>{{ category.confiscation_date }}</td>
-                        <td>{{ category.confiscation_time }}</td>
-                        <td>{{ category.quantity }}</td>
-                        <td>{{ category.category }}</td>
-                        <td v-if="userRol==1">{{ category.passenger }}</td>
+                    <tr v-for="delivery in allDeliveries" :key="delivery.id" @click=fetchdeliveryData(delivery) >
+                        <td>{{ delivery.id }}</td>
+                        <td>{{ delivery.open_time }}</td>
+                        <td>{{ delivery.close_time }}</td>
+                        <td>{{ delivery.delivery_point }}</td>
                     </tr> 
                 </tbody>
             </table>
@@ -76,18 +58,16 @@
     const API_URL = 'http://18.207.188.49:5000/graphql';
 
     export default {
-        name: "ItemList",
+        name: "Deliveries",
         data: function() {
             return {
-                allItems: [],
-                previewItem: false,
+                allDeliveries: [],
+                previewDelivery: false,
                 readMode: true,
                 createMode: false,
-                categoryData: { 
-                    id: null, name: null, 
-                    confiscation_date: null, confiscation_time: null,
-                    quantity: null, category: null, 
-                    passenger: null
+                deliveryData: { 
+                    id: null, open_time: null, 
+                    close_time: null, delivery_point: null
                 }
             };
         },
@@ -103,27 +83,14 @@
                 });
                 return result
             },
-            fetchAllItems: async function(){
+            fetchAllDeliveries: async function(){
                 var query =  `
-                {allItems{
+                {allDeliveries{
                     id,
-                    name,
-                    confiscation_date,
-                    confiscation_time,
-                    quantity,
-                    category,
-                    passenger
+                    open_time,
+                    close_time,
+                    delivery_point
                 } }`;
-                var queryPas =  `
-                {allItemsbyPass(passenger: "1997"){
-                    id,
-                    name,
-                    confiscation_date,
-                    confiscation_time,
-                    quantity,
-                    category
-                }}`;
-                if(this.userRol==2){query = queryPas}
                 try {
                     var result = await axios({
                         method: "POST",
@@ -132,96 +99,85 @@
                         query: query
                     }
                     });
-                    if(this.userRol==2){
-                        this.allItems = result.data.data.allItemsbyPass;
-                    }else{
-                        this.allItems = result.data.data.allItems;
-                    }
+                    this.allDeliveries = result.data.data.allDeliveries;
+                    
                 } catch (error) {
                     console.log(error);
                 }
             },
             closePreview: function (){
-                this.previewItem = false;
+                this.previewDelivery = false;
                 this.readMode= true;
                 this.createMode = false;
             },
-            fetchItemData: function(category){
-                this.previewItem = true;
-                this.categoryData = category;
+            fetchdeliveryData: function(delivery){
+                this.previewDelivery = true;
+                this.deliveryData = delivery;
             },
-            newItem(){
-                this.categoryData = { 
-                    id: null, name: null, 
-                    confiscation_date: null, confiscation_time: null,
-                    quantity: null, category: null, 
-                    passenger: null
+            newDelivery(){
+                this.deliveryData = { 
+                    id: null, open_time: null, 
+                    close_time: null, delivery_point: null
                 }
-                this.previewItem = true;
+                this.previewDelivery = true;
                 this.readMode= false;
                 this.createMode = true;
             },
-            addItem(category){
-                this.previewItem = false;
+            addDelivery(delivery){
+                this.previewDelivery = false;
                 this.readMode= true;
                 var query =  'mutation{'+
-                    'createItem('+
-                    'category:{'+
-                        'name: "'+category.name+'",'+
-                        'confiscation_date: "'+category.confiscation_date+'",'+
-                        'confiscation_time: "'+category.confiscation_time+'",'+
-                        'quantity: ' +category.quantity+','+
-                        'category: '+category.category+','+
-                        'passenger: "'+category.passenger+'"'+
+                    'createDelivery('+
+                    'delivery:{'+
+                        'open_time: "'+delivery.open_time+'",'+
+                        'close_time: "'+delivery.close_time+'",'+
+                        'delivery_point: "'+delivery.delivery_point+'"'+
                     '}){id}}';
                 try {
                     this.axiosRequest(query);
                 } catch (error) {
                     console.log(error);
                 } finally{
-                    this.fetchAllItems();
-                    this.previewItem = false;
+                    this.fetchAllDeliveries();
+                    this.previewDelivery = false;
                 }
             },
-            updateItem: function(category){
+            updateDelivery: function(delivery){
                 this.readMode= true;
 
                 var query =  'mutation{'+
-                    'updateItem(id: '+category.id+','+
-                    'category:{'+
-                        'name: "'+category.name+'",'+
-                        'confiscation_date: "'+category.confiscation_date+'",'+
-                        'confiscation_time: "'+category.confiscation_time+'",'+
-                        'quantity: ' +category.quantity+','+
-                        'category: '+category.category+','+
-                        'passenger: "'+category.passenger+'"'+
-                    '}){name}}';
+                    'updateDelivery(id: '+delivery.id+','+
+                    'delivery:{'+
+                        'open_time: "'+delivery.open_time+'",'+
+                        'close_time: "'+delivery.close_time+'",'+
+                        'delivery_point: "'+delivery.delivery_point+'"'+
+                    '}){delivery_point}}';
                     
                 try {
                     this.axiosRequest(query);
                 } catch (error) {
                     console.log(error);
                 } finally{
-                    this.fetchAllItems();
-                    this.previewItem = false;
+                    this.fetchAllDeliveries();
+                    this.previewDelivery = false;
                 }
             },
-            deleteItem: function(id){
+            deleteDelivery: function(id){
                 this.readMode= true;
-                var query =  'mutation{deleteItem(id: '+id+')}';
+                var query =  'mutation{deleteDelivery(id: '+id+')}';
                 try {
                     this.axiosRequest(query);
                 } catch (error) {
                     console.log(error)
                 } finally{
-                    this.fetchAllItems();
-                    this.previewItem = false;
+                    this.fetchAllDeliveries();
+                    this.previewDelivery = false;
                 }
 
             }
         },
         mounted() {
-            this.fetchAllItems();
+            this.fetchAllDeliveries();
         }
     };
 </script>
