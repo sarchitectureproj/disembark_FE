@@ -2,8 +2,8 @@
   <div class="container">
     <div class="columns">
       <div class="column">
-        <CreateMeetingPoint :addToList="addToList"/>
-        <ListMeetingPoint :meeting_points="meeting_points" :removeToList="removeToList" />
+        <CreateMeetingPoint :addToList="addToList" />
+        <ListMeetingPoint :meeting_points="meeting_points" :removeToList="removeToList" :editItem="editItem" />
       </div>
       <div class="column">
       </div>
@@ -54,9 +54,13 @@ export default {
       this.meeting_points = meeting_points;
     },
     removeToList: function(index){
-      console.log(index)
       let meeting_points = [...this.meeting_points];
       meeting_points.splice(index,1);
+      this.meeting_points = meeting_points;
+    },
+    editItem: function(index, meeting_point){
+      let meeting_points = [...this.meeting_points];
+      meeting_points[index] = meeting_point;
       this.meeting_points = meeting_points;
     }
 

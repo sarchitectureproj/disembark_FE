@@ -11,17 +11,23 @@
       </section>
     </div>
     <div v-else>
-      <b-table :data="meeting_points" class="is-bordered is-size-7" detailed detail-key="id">
+      <b-table :data="meeting_points" class="is-bordered is-size-7" detailed detail-key="_id">
         <template slot-scope="props">
           <b-table-column
             class="is-small has-text-weight-bold"
             label="Name"
-            width="40"
+            field="_id"
           >{{ props.row.name}}</b-table-column>
+
           <b-table-column label="Edit" numeric>
-            <span class="has-text-info">
-              <i class="fas fa-edit"></i>
-            </span>
+            <button
+              class="button is-small"
+              @click="editRequest(props.row._id, props.row.name, props.index)"
+            >
+              <span class="has-text-info">
+                <i class="fas fa-edit"></i>
+              </span>
+            </button>
           </b-table-column>
           <b-table-column label="Delete" numeric>
             <button v-on:click="deleteRequest(props.index)" class="button is-small">
@@ -42,12 +48,46 @@ export default {
   name: "ListMeetingPoint",
   props: {
     meeting_points: Array,
-    removeToList: Function
+    removeToList: Function,
+    editItem: Function
   },
   methods: {
+    editRequest(id, name, index) {
+      this.$dialog.prompt({
+        message: `What's the new name?`,
+        type: "is-twitter",
+        inputAttrs: {
+          placeholder: "e.g. Walter",
+          maxlength: 16,
+          value: name
+        },
+        onConfirm: value => {
+          const query = ` mutation{
+                  updateMeetingPoint (id: "${id}", 
+                  meeting_point: {
+                    name: "${value}"
+                   }){
+                  _id,name,
+                    }
+                  }`;
+          axios
+            .post(GRAPHQL_URL, {
+              query: query
+            })
+            .then(res => {
+              this.$toast.open(
+                `The new name is: ${value}, the old name is ${name}`
+              );
+              const item = res.data.data.updateMeetingPoint;
+              this.editItem(index, item, index);
+            })
+            .catch(function(error) {
+              console.log(error);
+            });
+        }
+      });
+    },
     deleteRequest: function(index) {
-      const query = ` 
-}`;
       this.$dialog.confirm({
         title: "Deleting meeting point",
         message: `Are you sure you want to <b>delete</b> ${
@@ -63,7 +103,7 @@ export default {
                 this.meeting_points[index]._id
               }")}`
             })
-            .then(res => {
+            .then(() => {
               this.$toast.open("Meeting point deleted!");
               this.removeToList(index)
             })
@@ -72,6 +112,9 @@ export default {
             });
         }
       });
+    },
+    toggle(row) {
+      this.$refs.table.toggleDetails(row);
     }
   }
 };

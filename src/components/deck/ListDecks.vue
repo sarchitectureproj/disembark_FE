@@ -45,7 +45,7 @@
           </b-table-column>
           <b-table-column>
             <button
-              class="button is-smalu is-dark"
+              class="button is-small is-dark"
               v-on:click="showCabins(props.row._id, props.row.floor)"
             >Cabins</button>
           </b-table-column>
