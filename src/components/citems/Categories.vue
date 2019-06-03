@@ -13,36 +13,46 @@
                 </div>
                 <label class="label">Recoverable</label>
                 <div class="control">
-                    <input  class="input" type="text" v-model="categoryData.recoverable" :readonly="readMode">
+                    <label class="radio">
+                    <input type="radio" name="recoverable" value="true" v-model="categoryData.recoverable" :disabled="readMode">
+                    Yes
+                    </label>
+                    <label class="radio">
+                    <input type="radio" name="recoverable" value="false" v-model="categoryData.recoverable" :disabled="readMode">
+                    No
+                    </label>
                 </div>
+
                 <label class="label">Delivery</label>
                 <div class="control">
-                    <input  class="input" type="text" v-model="categoryData.delivery" :readonly="readMode">
+                    <input  class="input" type="number " v-model="categoryData.delivery" :readonly="readMode" :disabled="!categoryData.recoverable">
                 </div>
             </div>
 
-            <div v-if="createMode">
-                <button @click="addCategory(categoryData)">Create</button>
+            <div class="field is-grouped">
+                <div v-if="createMode">
+                    <a @click="addCategory(categoryData)" class="button is-primary">Create</a>
+                </div>
+                <div v-else>
+                    <a v-if="readMode" @click="readMode= false" class="button is-link">Edit</a>
+                    <a v-else @click="updateCategory(categoryData)" class="button is-info">Update</a>
+                </div>
+                <a  @click="closePreview" class="button is-danger">Return</a>
             </div>
-            <div v-else>
-                <button v-if="readMode" @click="readMode= false">Edit</button>
-                <button v-else @click="updateCategory(categoryData)">Update</button>
-            </div>
-            <button @click="closePreview">Return</button>
 
         </div>
 
         <div v-if="!previewCategory" class="table-wrapper">
-           <div class="table-Head columns">
+           <div class="title notification is-success table-Head columns">
                 <div class="column">
-                    <h1>Categories Table</h1>
+                    <h1 class="title">Categories Table</h1>
                 </div>
                 <div class="column">
-                    <button @click="newCategory">Add Category</button>
+                    <a @click="newCategory" class="button is-link is-outlined">Create Item</a>
                 </div>
             </div>
             <div class="table-Body">
-                <table class="table">
+                <table class="table is-hoverable is-fullwidth">
                     <thead>
                         <tr>
                             <th>View</th>
@@ -57,14 +67,14 @@
                     </thead>
                     <tbody>
                         <tr v-for="category in allCategories" :key="category.id" >
-                            <td><a @click=viewCategory(category)>View</a></td>
+                            <td><a @click=viewCategory(category)><span class="icon is-small"><i class="fas fa-eye"></i></span></a></td>
                             <td>{{ category.id }}</td>
                             <td>{{ category.name }}</td>
                             <td>{{ category.description }}</td>
                             <td>{{ category.recoverable }}</td>
                             <td>{{ category.delivery }}</td>
-                            <td><a @click=editCategory(category)>Edit</a></td>
-                            <td><a @click=deleteCategory(category.id)>Delete</a></td>
+                            <td><a @click=editCategory(category)><span class="icon is-small"><i class="fas fa-edit"></i></span></a></td>
+                            <td><a @click=deleteCategory(category.id)><span class="icon is-small"><i class="fas fa-trash"></i></span></a></td>
                         </tr> 
                     </tbody>
                 </table>
