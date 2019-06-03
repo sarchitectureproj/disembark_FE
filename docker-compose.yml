@@ -1,0 +1,6 @@
+version: '2'
+services:
+  disembark-fe:
+    build: ./
+    ports:
+      - 80:8080
