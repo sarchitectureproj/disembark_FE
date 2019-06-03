@@ -36,7 +36,7 @@
             </b-button>
 
             <b-button type="is-danger is-small">
-              <i class="fas fa-trash"></i>
+              <i @click="deleteRequest(props)" class="fas fa-trash"></i>
             </b-button>
           </b-table-column>
         </template>
@@ -46,9 +46,12 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-  props:{
-    tags: Array
+  props: {
+    tags: Array,
+    removeFromList: Function
   },
   data() {
     return {
@@ -60,5 +63,38 @@ export default {
       perPage: 5
     };
   },
+  methods: {
+    deleteRequest: function(props) {
+      this.$dialog.confirm({
+        title: "Deleting Tag",
+        message: `Are you sure you want to <b>delete tag</b> ${
+          props.row.id
+        } ?`,
+        confirmText: "Delete tag",
+        type: "is-danger",
+        hasIcon: true,
+        onConfirm: () => {
+          axios
+            //.post(`http://dnode2.centralus.cloudapp.azure.com:5000/graphql`, {
+            .post(`http://192.168.99.109:5000/graphql`, {
+              query: `mutation{deleteTag(id:${props.row.id})}`
+            })
+            .then(res => {
+              console.log(this.currentPage*5+props.index)
+              if (res.data.errors == undefined) {
+                this.$toast.open("Tag deleted!");
+                this.removeFromList((this.currentPage-1)*5+props.index);
+              }else{
+                this.$toast.open("Tag can't be deleted!");
+              }
+            })
+            .catch(function(error) {
+              //alert(this.tags[index].id);
+              console.log(error);
+            });
+        }
+      });
+    }
+  }
 };
 </script>

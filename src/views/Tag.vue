@@ -10,7 +10,7 @@
     <div class="container notification">
       <div class="columns">
         <div class="column">
-          <ListTags :tags="alltags"/>
+          <ListTags :tags="alltags" :removeFromList="removeFromList"/>
         </div>
       </div>
     </div>
@@ -34,6 +34,7 @@ export default {
   created: function() {
     // `this` points to the vm instance
     axios
+    //.post(`http://dnode2.centralus.cloudapp.azure.com:5000/graphql`, {
       .post(`http://192.168.99.109:5000/graphql`, {
         query: `{ allTags {
      id,
@@ -55,7 +56,13 @@ export default {
          newList.push(item)
          this.alltags = newList
          console.log(newList)   
-     } 
+     },
+     removeFromList: function(index){
+      console.log(index)
+      let tags_list = [...this.alltags];
+      tags_list.splice(index,1);
+      this.alltags = tags_list;
+    }  
   }
 };
 </script>

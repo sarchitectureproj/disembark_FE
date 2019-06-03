@@ -6,7 +6,7 @@
     <div class="field-body">
       <div class="field">
         <p class="control is-expanded has-icons-left">
-          <input class="input" type="text" placeholder="Passenger Id">
+          <input v-model="tagData.passenger_id" class="input" type="text" placeholder="Passenger Id">
           <span class="icon is-small is-left">
             <i class="fas fa-user"></i>
           </span>
@@ -17,7 +17,7 @@
       </div>
       <div class="field">
         <p class="control is-expanded has-icons-left">
-          <input class="input" type="text" placeholder="Cabin Id">
+          <input v-model="tagData.cabin_id" class="input" type="text" placeholder="Cabin Id">
           <span class="icon is-small is-left">
             <i class="fas fa-bed"></i>
           </span>
@@ -60,6 +60,7 @@ export default {
         }
     }`;
       axios
+      //.post(`http://dnode2.centralus.cloudapp.azure.com:5000/graphql`, {
         .post(`http://192.168.99.109:5000/graphql`, {
           query: query
         })

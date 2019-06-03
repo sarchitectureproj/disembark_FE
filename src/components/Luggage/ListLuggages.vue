@@ -33,7 +33,7 @@
               <i class="fas fa-pencil-alt"></i>
             </b-button>
 
-            <b-button @click="deleteRequest(props.index)" type="is-danger is-small">
+            <b-button @click="deleteRequest(props)" type="is-danger is-small">
               <i class="fas fa-trash"></i>
             </b-button>
           </b-table-column>
@@ -62,25 +62,29 @@ export default {
     };
   },
   methods: {
-    deleteRequest: function(index) {
+    deleteRequest: function(props) {
       this.$dialog.confirm({
         title: "Deleting Luggage",
         message: `Are you sure you want to <b>delete luggage</b> ${
-          this.luggages[index].id
+          props.row.id
         } ?`,
         confirmText: "Delete luggage",
         type: "is-danger",
         hasIcon: true,
         onConfirm: () => {
           axios
+          //.post(`http://dnode2.centralus.cloudapp.azure.com:5000/graphql`, {
             .post(`http://192.168.99.109:5000/graphql`, {
-              query: `mutation{deleteLuggage(id:${
-                this.luggages[index].id
+              query: `mutation{deleteLuggage(id:${props.row.id
               })}`
             })
-            .then(() => {
-              this.$toast.open("Luggage deleted!");
-              this.removeFromList(index)
+            .then(res => {
+              if (res.data.errors == undefined) {
+                this.$toast.open("Luggage deleted!");
+                this.removeFromList((this.currentPage-1)*5+props.index);
+              }else{
+                this.$toast.open("Luggage can't be deleted!");
+              }
             })
             .catch(function(error) {
               console.log(error);
