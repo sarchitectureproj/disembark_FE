@@ -26,7 +26,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr v-for="(passenger,index) in passengers.data.allPassengers">
+							<tr v-for="(passenger,index) in passengers.data.allPassengers" :key ="index">
 								<!--<td>{{ids.data.allPassengers[index]._id}}</td>-->
 								<td>{{passenger.first_name}}</td>
 								<td>{{passenger.last_name}}</td>
@@ -54,6 +54,8 @@
 
 <script>
 	import axios from "axios";
+	import GRPAHQL_URL from '../../server'
+import GRAPHQL_URL from '../../server';
 	export default {
 		name: "getPassengers",
 		data(){
@@ -68,7 +70,7 @@
 		},
 		methods: {
 			consumirAPI(){
-				axios.post('http://dnode2.centralus.cloudapp.azure.com:5000/graphql',{
+				axios.post(GRAPHQL_URL,{
 					query: `{ allPassengers {
 					   first_name,
 				   	   last_name,
@@ -85,7 +87,7 @@
 				.catch(error => console.log(error));
 			},
 			guardarId(){
-				axios.post('http://dnode2.centralus.cloudapp.azure.com:5000/graphql',{
+				axios.post(GRPAHQL_URL,{
 					query: `{ allPassengers {
 					   _id,
 				    }}`
@@ -93,7 +95,7 @@
 				.catch(error => console.log(error));
 			},
 			borrarPasajero(passengerIndex){
-				axios.post('http://dnode2.centralus.cloudapp.azure.com:5000/graphql',{
+				axios.post(GRPAHQL_URL,{
 					query: `mutation {
 						deletePassenger(id: "${this.ids.data.allPassengers[passengerIndex]._id}")
 					}`

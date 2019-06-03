@@ -61,6 +61,7 @@
 
 <script>
 	import axios from "axios";
+	import GRPAHQL_URL from '../../server'
 	export default {
 		name: "createPassenger",
 		data(){
@@ -82,7 +83,7 @@
 		},
 		methods: {
 			crearPasajero(){
-				axios.post('http://dnode2.centralus.cloudapp.azure.com:5000/graphql',{
+				axios.post(GRPAHQL_URL,{
 					query: `mutation {
 						createPassenger(passenger: {
 							first_name: "${this.first_name_input}"
