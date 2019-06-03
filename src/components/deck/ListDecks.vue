@@ -114,7 +114,7 @@ export default {
       this.dates = [...array];
       this.hours = [...array];
       this.points = [...array];
-    }, 500);
+    }, 1500);
 
     //get meeting points
     const query = ` {
