@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <div v-if="previewCategory" class="Preview box">
+        <div v-if="previewCategory" class="Preview box  container is-desktop">
             <div class="field" id="category-fields">
                 <label class="label">Name</label>
                 <div class="control">
@@ -42,8 +42,8 @@
 
         </div>
 
-        <div v-if="!previewCategory" class="table-wrapper">
-           <div class="title notification is-success table-Head columns">
+        <div v-if="!previewCategory" class="table-wrapper container is-desktop">
+           <div class="title notification is-success table-Head columns  is-marginless">
                 <div class="column">
                     <h1 class="title">Categories Table</h1>
                 </div>
@@ -51,7 +51,7 @@
                     <a @click="newCategory" class="button is-link is-outlined">Create Item</a>
                 </div>
             </div>
-            <div class="table-Body">
+            <div class="table-Body  table-container">
                 <table class="table is-hoverable is-fullwidth">
                     <thead>
                         <tr>

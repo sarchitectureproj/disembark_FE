@@ -1,8 +1,8 @@
 <template>
 
-
   <div id="citems-body">
-    <div class="tabs is-centered is-boxed is-fullwidth is-toggle" v-if="userRol==1">
+    </br>
+    <div class="tabs is-centered is-boxed is-fullwidth is-toggle container is-desktop" v-if="userRol==1">
       <ul>
         <li v-on:click="currentComponent='ItemList'" v-bind:class="itemActive"><a>Items</a></li>
         <li v-on:click="currentComponent='Categories'" v-bind:class="catActive"><a>Categories</a></li>
@@ -53,7 +53,6 @@ export default {
         this.itemActive = "is-active";
         return { userRol: this.userRol, api_url: API_URL, passenger_id: this.passenger_id }
       }else{
-        this.catActive = "";
         this.devActive = "";
         this.itemActive = "";
         if (this.currentComponent === 'Categories'){

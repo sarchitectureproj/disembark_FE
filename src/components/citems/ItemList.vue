@@ -1,14 +1,7 @@
 <template>
     <div>
 
-        <div v-if="previewItem" class="Preview box">
-
-            <p v-if="errors.length">
-                <b>Please correct the following error(s):</b>
-                <ul>
-                <li v-for="error in errors">{{ error }}</li>
-                </ul>
-            </p>
+        <div v-if="previewItem" class="Preview box  container is-desktop">
 
             <div class="field" id="item-fields">
                 <label class="label">Item Name</label>
@@ -52,16 +45,16 @@
 
         </div>
 
-        <div v-if="!previewItem" class="table-wrapper">
-            <div class="title notification is-success table-Head columns">
-                <div class="column">
+        <div v-if="!previewItem" class="table-wrapper  container is-desktop">
+            <div class="title notification is-success table-Head columns is-marginless">
+                <div class="column  is-fullwidth">
                     <h1 class="title is-centered">Items Table</h1>
                 </div>
-                <div class="column">
+                <div class="column  is-fullwidth">
                     <a @click="newItem" class="button is-link is-outlined is-centered">Create Item</a>
                 </div>
             </div>
-            <div class="table-Body">
+            <div class="table-Body table-container">
                 <table class="table is-hoverable is-fullwidth">
                     <thead>
                         <tr>
@@ -154,7 +147,6 @@
                 }}`;
                 if(this.userRol==2){query = queryPas}
                 try {
-                    console.log(this.api_url);
                     var result = await axios({
                         method: "POST",
                         url: this.api_url,

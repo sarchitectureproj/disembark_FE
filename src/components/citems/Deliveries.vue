@@ -1,11 +1,10 @@
 <template>
     <div>
-
-        <div v-if="previewDelivery" class="Preview box">
+        
+        <div v-if="previewDelivery" class="Preview box container is-desktop">
             <div class="field" id="delivery-fields">
                 <label class="label">Open Time</label>
                 <div class="control">
-                    <v-id
                     <input  class="input" type="time" v-model="deliveryData.open_time" :readonly="readMode" v-bind:max="deliveryData.close_time" >
                 </div>
                 <label class="label">Close Time</label>
@@ -17,20 +16,23 @@
                     <input  class="input" type="text" v-model="deliveryData.delivery_point" :readonly="readMode">
                 </div>
             </div>
-
-            <div v-if="createMode">
-                <button @click="addDelivery(deliveryData)">Create</button>
+            
+            <div class="field is-grouped">
+                <div v-if="createMode">
+                    <a @click="addDelivery(deliveryData)" class="button is-primary">Create</a>
+                </div>
+                <div v-else>
+                    <a v-if="readMode" @click="readMode= false" class="button is-link">Edit</a>
+                    <a v-else @click="updateDelivery(deliveryData)" class="button is-info">Update</a>
+                </div>
+                <a  @click="closePreview" class="button is-danger">Return</a>
             </div>
-            <div v-else>
-                <button v-if="readMode" @click="readMode= false">Edit</button>
-                <button v-else @click="updateDelivery(deliveryData)">Update</button>
-            </div>
-            <button @click="closePreview">Return</button>
+            
 
         </div>
 
-        <div v-if="!previewDelivery" class="table-wrapper">
-           <div class="title notification is-success  table-Head columns">
+        <div v-if="!previewDelivery" class="table-wrapper container is-desktop">
+           <div class="title notification is-success  table-Head columns  is-marginless">
                 <div class="column">
                     <h1 class="title">Deliveries Table</h1>
                 </div>
@@ -39,7 +41,7 @@
                 </div>
             </div>
             
-            <div class="table-Body">
+            <div class="table-Body  table-container">
                 <table class="table is-hoverable is-fullwidth ">
                     <thead>
                         <tr>
