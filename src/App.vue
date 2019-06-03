@@ -7,6 +7,7 @@
 
 <script>
 import Header from "./components/Header.vue";
+
 // Vue.use(Buefy)
 export default {
   name: "app",

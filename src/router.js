@@ -16,6 +16,7 @@ export default new Router({
             component: () => import('./views/Deck.vue')
         },
 
+
         //MEETING POINTS ROUTES
         {
             path: '/meeting_points',
@@ -47,6 +48,12 @@ export default new Router({
             path: '/passengers/delete',
             name: 'show passenger',
             component: () => import('./views/Passenger/DeletePassenger.vue')
+        },
+
+        {
+            path: '/citems',
+            name: 'citems',
+            component: () => import('./views/CItems.vue')
         },
     ]
 })
