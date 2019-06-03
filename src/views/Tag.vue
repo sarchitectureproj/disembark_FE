@@ -3,7 +3,7 @@
     <div class="container notification">
       <div class="columns">
         <div class="column">
-          <CreateTag  />
+          <CreateTag  :addToList="addToList"/>
         </div>
       </div>
     </div>
@@ -20,8 +20,6 @@
 import axios from "axios";
 import ListTags from "../components/Luggage/ListTags";
 import CreateTag from "../components/Luggage/CreateTag";
-import ListLuggages from "../components/Luggage/ListLuggages";
-import CreateLuggage from "../components/Luggage/CreateLuggage";
 export default {
   name: "tags",
   components: {
@@ -50,6 +48,14 @@ export default {
       .catch(function(error) {
         console.log(error);
       });
+  },
+  methods:{
+     addToList: function(item){
+         let newList = [...this.alltags]
+         newList.push(item)
+         this.alltags = newList
+         console.log(newList)   
+     } 
   }
 };
 </script>

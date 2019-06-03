@@ -2,7 +2,7 @@
   <div>
     <div>
       <b-table
-        :data="data"
+        :data="tags"
         :paginated="isPaginated"
         :per-page="perPage"
         :current-page.sync="currentPage"
@@ -19,19 +19,19 @@
             field="passenger_id"
             label="Passenger Id"
             width="10"
-            centered="true"
+            centered
           >{{ props.row.passenger_id}}</b-table-column>
           <b-table-column
             field="cabin_id"
             label="Cabin Id"
             width="10"
-            centered="true"
+            centered
           >{{ props.row.cabin_id}}</b-table-column>
-          <b-table-column field="action" label="Action" width="120">
-            <b-button type="is-primary is small">
+          <b-table-column field="action" label="Action" width="120" centered>
+            <b-button type="is-primary is-small">
               <i class="fas fa-eye"></i>
             </b-button>
-            <b-button type="is-info is small">
+            <b-button type="is-info is-small">
               <i class="fas fa-pencil-alt"></i>
             </b-button>
 
@@ -47,6 +47,9 @@
 
 <script>
 export default {
+  props:{
+    tags: Array
+  },
   data() {
     return {
       data: undefined,
@@ -57,13 +60,5 @@ export default {
       perPage: 5
     };
   },
-  mounted: function() {
-    setTimeout(() => {
-      const tags = this.$attrs.tags;
-      console.log(tags);
-      this.data = tags;
-      // console.log("this.data", this.$props.decks.data.allDeck )
-    }, 500);
-  }
 };
 </script>

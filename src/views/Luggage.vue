@@ -3,14 +3,14 @@
     <div class="container notification">
       <div class="columns">
         <div class="column">
-          <CreateLuggage  />
+          <CreateLuggage  :addToList="addToList"/>
         </div>
       </div>
     </div>
     <div class="container notification">
       <div class="columns">
         <div class="column">
-          <ListLuggages :luggages="allluggages"/>
+          <ListLuggages :luggages="allluggages" :removeFromList="removeFromList"/>
         </div>
       </div>
     </div>
@@ -31,7 +31,7 @@ export default {
       allluggages: []
     };
   },
-  created: function() {
+  mounted: function() {
     // `this` points to the vm instance
     axios
       .post(`http://192.168.99.109:5000/graphql`, {
@@ -49,7 +49,20 @@ export default {
       .catch(function(error) {
         console.log(error);
       });
+  },
+  methods:{
+     addToList: function(item){
+         let newList = [...this.allluggages]
+         newList.push(item)
+         this.allluggages = newList
+         console.log(newList)   
+     },
+     removeFromList: function(index){
+      console.log(index)
+      let luggages_list = [...this.allluggages];
+      luggages_list.splice(index,1);
+      this.allluggages = luggages_list;
+    } 
   }
 };
 </script>
-
