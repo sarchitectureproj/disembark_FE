@@ -2,55 +2,55 @@
 		<div>
 				<form id="createForm">
 					<h2>
-						Crear Pasajero
+						Create Passenger
 					</h2>
 					<div class="columns">
 						<div class="column">
 							<div class="form-group">
-								<label for="">Nombres</label>
-								<input v-model="first_name_input" type="text" placeholder="Nombres">
+								<label for="">First Name</label>
+								<input v-model="first_name_input" type="text" placeholder="First Name">
 							</div>
 							<div class="form-group">
-								<label for="">Apellidos</label>
-								<input v-model="last_name_input" type="text" placeholder="Apellidos">
+								<label for="">Last Name</label>
+								<input v-model="last_name_input" type="text" placeholder="Last Name">
 							</div>
 							<div class="form-group">
-								<label for="">Edad</label>
-								<input v-model="age_input" type="text" placeholder="Edad">
+								<label for="">Age</label>
+								<input v-model="age_input" type="text" placeholder="Age">
 							</div>
 							<div class="form-group">
-								<label for="">Género</label>
-								<input v-model="gender_input" type="text" placeholder="Género">
+								<label for="">Gender</label>
+								<input v-model="gender_input" type="text" placeholder="Gender">
 							</div>
 							<div class="form-group">
-								<label for="">E-mail</label>
-								<input v-model="email_input" type="text" placeholder="E-mail">
+								<label for="">Email</label>
+								<input v-model="email_input" type="text" placeholder="Email">
 							</div>
 						</div>
 						<div class="column">
 							<div class="form-group">
-								<label for="">Teléfono</label>
-								<input v-model="phone_number_input" type="text" placeholder="Teléfono">
+								<label for="">Phone Number</label>
+								<input v-model="phone_number_input" type="text" placeholder="Phone Number">
 							</div>
 							<div class="form-group">
-								<label for="">Fecha de nacimiento (DD-MM-YYYY)</label>
-								<input v-model="birthdate_input" type="text" placeholder="Fecha de nacimiento">
+								<label for="">Birthdate (DD-MM-YYYY)</label>
+								<input v-model="birthdate_input" type="text" placeholder="Birthdate">
 							</div>
 							<div class="form-group">
-								<label for="">Ocupación</label>
-								<input v-model="occupation_input" type="text" placeholder="Ocupación">
+								<label for="">Occupation</label>
+								<input v-model="occupation_input" type="text" placeholder="Occupation">
 							</div>
 							<div class="form-group">
-								<label for="">Nacionalidad</label>
-								<input v-model="nationality_input" type="text" placeholder="Nacionalidad">
+								<label for="">Nationality</label>
+								<input v-model="nationality_input" type="text" placeholder="Nationality">
 							</div>
 							<div class="form-group">
-								<label for="">Lengua nativa</label>
-								<input v-model="native_language_input" type="text" placeholder="Lengua nativa">
+								<label for="">Native Language</label>
+								<input v-model="native_language_input" type="text" placeholder="Native Language">
 							</div>
 						</div>
 					</div>
-					 <input id="submitBtn" value="Enviar" @click="crearPasajero"> 
+					 <input id="createBtn" type="button" value="Create" @click="crearPasajero"> 
 				</form>
 		</div>
 </template>
@@ -61,7 +61,7 @@
 
 <script>
 	import axios from "axios";
-	import GRPAHQL_URL from '../../server'
+	import GRAPHQL_URL from '../../server'
 	export default {
 		name: "createPassenger",
 		data(){
@@ -83,7 +83,7 @@
 		},
 		methods: {
 			crearPasajero(){
-				axios.post(GRPAHQL_URL,{
+				axios.post(GRAPHQL_URL,{
 					query: `mutation {
 						createPassenger(passenger: {
 							first_name: "${this.first_name_input}"
