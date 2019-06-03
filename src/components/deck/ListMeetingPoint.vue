@@ -116,6 +116,6 @@ export default {
     toggle(row) {
       this.$refs.table.toggleDetails(row);
     }
-  }
+  },
 };
 </script>
