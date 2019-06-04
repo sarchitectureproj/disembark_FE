@@ -75,8 +75,8 @@ export default {
         hasIcon: true,
         onConfirm: () => {
           axios
-            //.post(`http://dnode2.centralus.cloudapp.azure.com:5000/graphql`, {
-            .post(`http://192.168.99.109:5000/graphql`, {
+            .post(`http://dnode2.centralus.cloudapp.azure.com:5000/graphql`, {
+            //.post(`http://192.168.99.109:5000/graphql`, {
               query: `mutation{deleteTag(id:${props.row.id})}`
             })
             .then(res => {

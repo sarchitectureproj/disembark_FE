@@ -73,16 +73,15 @@ export default {
         hasIcon: true,
         onConfirm: () => {
           axios
-          //.post(`http://dnode2.centralus.cloudapp.azure.com:5000/graphql`, {
-            .post(`http://192.168.99.109:5000/graphql`, {
-              query: `mutation{deleteLuggage(id:${props.row.id
-              })}`
+            .post(`http://dnode2.centralus.cloudapp.azure.com:5000/graphql`, {
+            //.post(`http://192.168.99.109:5000/graphql`, {
+              query: `mutation{deleteLuggage(id:${props.row.id})}`
             })
             .then(res => {
               if (res.data.errors == undefined) {
                 this.$toast.open("Luggage deleted!");
-                this.removeFromList((this.currentPage-1)*5+props.index);
-              }else{
+                this.removeFromList((this.currentPage - 1) * 5 + props.index);
+              } else {
                 this.$toast.open("Luggage can't be deleted!");
               }
             })

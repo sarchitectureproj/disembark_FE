@@ -1,6 +1,9 @@
 <template>
   <div>
     <div class="container notification">
+      <div class="tagTitle"> 
+        <h1><b>Add a tag</b></h1>
+      </div> 
       <div class="columns">
         <div class="column">
           <CreateTag  :addToList="addToList"/>
@@ -8,6 +11,9 @@
       </div>
     </div>
     <div class="container notification">
+      <div class="tagTitle"> 
+        <h1><b>Tags List</b></h1>
+      </div> 
       <div class="columns">
         <div class="column">
           <ListTags :tags="alltags" :removeFromList="removeFromList"/>
@@ -34,8 +40,8 @@ export default {
   created: function() {
     // `this` points to the vm instance
     axios
-    //.post(`http://dnode2.centralus.cloudapp.azure.com:5000/graphql`, {
-      .post(`http://192.168.99.109:5000/graphql`, {
+    .post(`http://dnode2.centralus.cloudapp.azure.com:5000/graphql`, {
+      //.post(`http://192.168.99.109:5000/graphql`, {
         query: `{ allTags {
      id,
      passenger_id,
@@ -67,3 +73,9 @@ export default {
 };
 </script>
 
+<style>
+   .tagTitle {
+      text-align: center;
+      font-size: 2em;
+   }
+</style>
