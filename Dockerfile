@@ -1,12 +1,13 @@
-FROM node:latest
-RUN mkdir -p /opt/app 
-WORKDIR /opt/app
-#COPY ./myapp/package.json  ./
-#WORKDIR /opt/app
-
-COPY ./ ./
-RUN npm rebuild node-sass
+# build stage
+FROM node:10
+WORKDIR /app
+COPY package*.json ./
 RUN npm install
-ENV PORT 8080
-EXPOSE   8080
-CMD [ "npm", "run", "serve" ]
+COPY . .
+RUN npm run build
+
+# production stage
+FROM nginx:stable-alpine as production-stage
+COPY --from=build-stage /app/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
