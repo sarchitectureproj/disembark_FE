@@ -7,7 +7,7 @@
           </div>
           <div class="column notification custom">
             <h1 class="is-size-1" >Disembark system</h1>
-            <h2>Crew Interface</h2>
+            <h2 class="is-size-3" >Crew Interface</h2>
             <h1 class="is-size-2">Functions</h1>
             <div class="content">
               <ol class="is-lower-alpha">
