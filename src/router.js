@@ -55,5 +55,21 @@ export default new Router({
             name: 'citems',
             component: () => import('./views/CItems.vue')
         },
+        {
+            path: '/luggage',
+            name: 'luggage',
+            component: () => import('./views/LuggageMenu.vue')
+        },
+        {
+            path: '/luggage/viewLuggages',
+            name: 'luggage',
+            component: () => import('./views/Luggage.vue')
+        },
+        {
+            path: '/luggage/viewTags',
+            name: 'luggage',
+            component: () => import('./views/Tag.vue')
+        },
+        
     ]
 })
