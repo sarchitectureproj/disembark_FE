@@ -27,7 +27,7 @@
         <router-link class="navbar-item" to="/deck">
           <i class="fas fa-3x fa-layer-group"></i>Deck
         </router-link>
-        <router-link class="navbar-item" to="/citems">
+        <router-link class="navbar-item" to="/confiscated_items">
           <i class="fas fa-3x fa-exclamation"></i> Confiscated Items
         </router-link>
         <router-link class="navbar-item" to="/meeting_points">

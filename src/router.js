@@ -51,9 +51,24 @@ export default new Router({
         },
 
         {
-            path: '/citems',
-            name: 'citems',
-            component: () => import('./views/CItems.vue')
+            path: '/confiscated_items',
+            name: 'Confiscated Items Menu',
+            component: () => import('./views/citems/CItems.vue')
+        },
+        {
+            path: '/confiscated_items/items',
+            name: 'Confiscated Items List',
+            component: () => import('./views/citems/Items.vue')
+        },
+        {
+            path: '/confiscated_items/categories',
+            name: 'Categories List',
+            component: () => import('./views/citems/Categories.vue')
+        },
+        {
+            path: '/confiscated_items/deliveries',
+            name: 'Deliveries Schredule List',
+            component: () => import('./views/citems/Deliveries.vue')
         },
         {
             path: '/luggage',
