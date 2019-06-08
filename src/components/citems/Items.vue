@@ -57,7 +57,7 @@
                         {{ props.row.passenger }}
                     </b-table-column>
                     
-                    <b-table-column field="|" label="CRUD">
+                    <b-table-column field="|" label="CRUD"  width="80">
                         <div>
                             <a @click="viewItem(props.row)"><span class="icon is-small"><i class="fas fa-eye"></i></span></a>
                             <a @click="editItem(props.row)"><span class="icon is-small"><i class="fas fa-edit"></i></span></a>
@@ -448,7 +448,6 @@
                 this.datatoCreate.units = 1;
                 this.datatoCreate.confiscation_date = this.date;
                 this.isCreateModalActive = true;
-                this.errors = [];
             },
             addItem: function(newItemData){
                 
@@ -489,6 +488,7 @@
                             }) 
                         }
                     }) 
+                    this.isCreateModalActive = false;
                 }
 
             }
