@@ -51,8 +51,8 @@ export default new Router({
         },
 
         {
-            path: '/citems',
-            name: 'citems',
+            path: '/confiscated_items',
+            name: 'Confiscated Items Menu',
             component: () => import('./views/CItems.vue')
         },
         {

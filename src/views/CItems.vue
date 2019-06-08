@@ -1,12 +1,11 @@
 <template>
-
-  <div id="citems-body">
+  <div>
     </br>
-    <div class="tabs is-centered is-boxed is-fullwidth is-toggle container is-desktop" v-if="userRol==1">
+    <div class="tabs is-centered is-boxed is-fullwidth">
       <ul>
-        <li v-on:click="currentComponent='ItemList'" v-bind:class="itemActive"><a>Items</a></li>
-        <li v-on:click="currentComponent='Categories'" v-bind:class="catActive"><a>Categories</a></li>
-        <li v-on:click="currentComponent='Deliveries'" v-bind:class="devActive"><a>Deliveries</a></li>
+        <li v-on:click="currentComponent='Items'" v-bind:class="compActive[0]"><a>Items</a></li>
+        <li v-on:click="currentComponent='Categories'" v-bind:class="compActive[1]"><a>Categories</a></li>
+        <li v-on:click="currentComponent='Deliveries'" v-bind:class="compActive[2]"><a>Deliveries</a></li>
       </ul>
     </div>
     <component :is="currentComponent" v-bind="currentProperties"></component>
@@ -14,57 +13,39 @@
 </template>
 
 <script>
-
-import ItemList from '../components/citems/ItemList'
-import Categories from '../components/citems/Categories'
-import Deliveries from '../components/citems/Deliveries'
-import axios from 'axios'
-
-const ip = '54.89.175.227';
-//const API_URL = 'http://'+ip+':5000/graphql';
-const API_URL = 'http://dnode2.centralus.cloudapp.azure.com:5000/graphql';
-export default {
-  name: "CItems",
-  components: {
-    ItemList,
-    Categories,
-    Deliveries
-  },
-  data: function() {
-    return {
-      passenger_id: "1997", //ID of passenger
-      userRol: 1,  //1 es Crew, else is passenger
-      currentComponent: 'ItemList',
-      itemActive: "is-active",
-      catActive: "",
-      devActive: "",
-    };
-  },
-  methods: {
-    isActived: function(){
-      return 
-    }
-  },
-  computed: {
-    currentProperties: function() {
-      if (this.currentComponent === 'ItemList') {
-        this.catActive = "";
-        this.devActive = "";
-        this.itemActive = "is-active";
-        return { userRol: this.userRol, api_url: API_URL, passenger_id: this.passenger_id }
-      }else{
-        this.devActive = "";
-        this.itemActive = "";
-        if (this.currentComponent === 'Categories'){
-          this.catActive = "is-active";
+  import Items from '../components/citems/Items'
+  import Categories from '../components/citems/Categories'
+  import Deliveries from '../components/citems/Deliveries'
+  import GRAPHQL_URL from '../server'
+  
+  const ip = '34.207.111.182';
+  //const API_URL = 'http://'+ip+':5000/graphql';
+  //const API_URL = 'http://dnode2.centralus.cloudapp.azure.com:5000/graphql';
+  const API_URL = GRAPHQL_URL;
+  export default {
+    name: "CItems",
+    components: {
+      Items,
+      Categories,
+      Deliveries
+    },
+    data: function() {
+      return {
+        currentComponent: 'Items',
+        compActive: ["is-active","",""]
+      };
+    },
+    computed: {
+      currentProperties: function() {
+        if (this.currentComponent == 'Items') {
+          this.compActive= ["is-active","",""];
+        }else if (this.currentComponent == 'Categories'){
+            this.compActive= ["","is-active",""];
         }else{
-          this.devActive = "is-active";
+          this.compActive= ["","","is-active"];
         }
-        return { api_url: API_URL, passenger_id: this.passenger_id }
+        return { api_url: API_URL }
       }
     }
-  }
-};
+  };
 </script>
-
-
