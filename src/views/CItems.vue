@@ -17,7 +17,7 @@
   import Categories from '../components/citems/Categories'
   import Deliveries from '../components/citems/Deliveries'
   
-  const ip = '50.19.174.164';
+  const ip = '34.207.111.182';
   const API_URL = 'http://'+ip+':5000/graphql';
   //const API_URL = 'http://dnode2.centralus.cloudapp.azure.com:5000/graphql';
   export default {

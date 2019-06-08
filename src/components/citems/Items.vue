@@ -1,5 +1,15 @@
 <template>
     <div class="container is-desktop">
+    
+        <div class="title notification is-success table-Head columns is-marginless">
+            <div class="column  is-fullwidth">
+                <h1 class="title is-centered">Items</h1>
+            </div>
+            <div class="column  is-fullwidth">
+                <a @click="newItem" class="button is-link is-outlined is-centered">Create Item</a>
+            </div>
+        </div>
+        
         <section>
             <b-table
                 :data="isEmpty ? [] : data"
@@ -49,9 +59,9 @@
                     
                     <b-table-column field="|" label="CRUD">
                         <div>
-                            <a @click="launchModal(props.row,true)"><span class="icon is-small"><i class="fas fa-eye"></i></span></a>
-                            <a @click="launchModal(props.row,false)"><span class="icon is-small"><i class="fas fa-edit"></i></span></a>
-                            <a @click=""><span class="icon is-small"><i class="fas fa-trash"></i></span></a>  
+                            <a @click="viewItem(props.row)"><span class="icon is-small"><i class="fas fa-eye"></i></span></a>
+                            <a @click="editItem(props.row)"><span class="icon is-small"><i class="fas fa-edit"></i></span></a>
+                            <a @click="deleteItem(props.row.id)"><span class="icon is-small"><i class="fas fa-trash"></i></span></a>  
                         </div>
                     </b-table-column>
     
@@ -75,28 +85,89 @@
         </section>
         
         
-        <b-modal :active.sync="isCardModalActive" :width="640" scroll="keep">
+        <b-modal :active.sync="isViewModalActive" :width="640" scroll="keep">
             <div class="card">
                 <div class="card-content">
                     <div class="content">
-                        <p>{{modalContent.name}}</p>
-                        <p>{{modalContent.confiscation_date}}</p>
-                        <p>{{modalContent.units}}</p>
-                        <br>
-                        <p>{{itemCategory.name}}</p>
-                        <p>{{itemCategory.description}}</p>
-                        <p>{{itemCategory.recoverable}}</p>
-                        <br>
+                        
+                        <b-field label="Name">
+                            <b-input v-model="itemContent.name" type="text" maxlength="20" minlength="1" readonly></b-input>
+                        </b-field>
+                        <b-field label="Confiscation Date">
+                            <b-input v-model="itemContent.confiscation_date" type="date" maxlength="20" minlength="1" readonly></b-input>
+                        </b-field>
+                        <b-field label="Units">
+                            <b-input v-model="itemContent.units" type="number" maxlength="20" minlength="1" readonly></b-input>
+                        </b-field>
+                        <b-field label="Category">
+                            <b-input v-model="itemCategory.name" type="text" maxlength="20" minlength="1" readonly></b-input>
+                        </b-field>
                         <div v-if="itemCategory.recoverable">
-                            <p>Delivery Point</p>
-                            <p>{{itemDelivery.open_time}}</p>
-                            <p>{{itemDelivery.close_time}}</p>
-                            <p>{{itemDelivery.delivery_point}}</p>
+                            <p>You can recover your item on {{itemDelivery.delivery_point}}</p>
+                            <p>This point is open from {{itemDelivery.open_time}} to {{itemDelivery.close_time}}.</p>
                         </div>
                         <div v-else>
                             <p>This item cannot be recovered</p>
                         </div>
 
+                    </div>
+                </div>
+            </div>
+        </b-modal>
+        
+        <b-modal :active.sync="isEditModalActive" :width="640" scroll="keep">
+            <div class="card">
+                <div class="card-content">
+                    <div class="content">
+                        
+                        <b-field label="Name">
+                            <b-input v-model="dataToEdit.name" type="text" maxlength="20" minlength="1"></b-input>
+                        </b-field>
+                        <b-field label="Confiscated Date">
+                            <b-input v-model="dataToEdit.confiscation_date" type="date" :max="date" min="2019-01-01"></b-input>
+                        </b-field>
+                        <b-field label="Units">
+                            <b-numberinput  v-model="dataToEdit.units" min="1" max="100"></b-numberinput >
+                        </b-field>
+                        <b-field label="Category">
+                            <b-input v-model="dataToEdit.category" type="number" ></b-input>
+                        </b-field>
+                        <b-field label="Passenger ID">
+                            <b-input v-model="dataToEdit.passenger" type="text" maxlength="2" minlength="1"></b-input>
+                        </b-field>
+
+                        <button class="button is-medium is-danger" @click="updateItem">
+                            Update
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </b-modal>
+        
+        <b-modal :active.sync="isCreateModalActive" :width="640" scroll="keep">
+            <div class="card">
+                <div class="card-content">
+                    <div class="content">
+                        
+                        <b-field label="Name">
+                            <b-input v-model="datatoCreate.name" type="text" maxlength="20" minlength="1"></b-input>
+                        </b-field>
+                        <b-field label="Confiscated Date">
+                            <b-input v-model="datatoCreate.confiscation_date" type="date" :max="date" min="2019-01-01" default="date"></b-input>
+                        </b-field>
+                        <b-field label="Units">
+                            <b-numberinput  v-model="datatoCreate.units" min="1" max="100" default="1"></b-numberinput >
+                        </b-field>
+                        <b-field label="Category">
+                            <b-input v-model="datatoCreate.category" type="number" ></b-input>
+                        </b-field>
+                        <b-field label="Passenger ID">
+                            <b-input v-model="datatoCreate.passenger" type="text" maxlength="2" minlength="1"></b-input>
+                        </b-field>
+
+                        <button class="button is-medium is-danger" @click="addItem(datatoCreate)">
+                            Add Item
+                        </button>
                     </div>
                 </div>
             </div>
@@ -117,6 +188,7 @@
             ]
             return {
                 data,
+                date: new Date().toISOString().slice(0,10),
                 //b-table variables
                 isEmpty: false,
                 isBordered: false,
@@ -133,10 +205,17 @@
                 currentPage: 1,
                 perPage: 15,
                 //Modal
-                isCardModalActive: false,
-                modalContent: [],
+                isViewModalActive: false,
+                isEditModalActive: false,
+                isCreateModalActive: false,
+                itemContent: [],
                 itemCategory: [],
-                itemDelivery: []
+                itemDelivery: [],
+                //Form
+                hasError: false,
+                editContent: false,
+                dataToEdit: [],
+                datatoCreate: []
             }
         },
         props: ['api_url'],
@@ -185,12 +264,12 @@
                     })
                     
             },
-            launchModal: async function (row,readOnly){
+            viewItem: async function (row){
                 
-                this.modalContent = [];
+                this.itemContent = [];
                 this.itemCategory = [];
                 this.itemDelivery = [];
-                this.modalContent = row;
+                this.itemContent = row;
                 
                 var categoryQuery =  `
                     {
@@ -240,7 +319,133 @@
                     console.log(error);
                 }); 
                 
-                this.isCardModalActive = true;
+                this.isViewModalActive = true;
+            },
+            editItem: function (row){
+                
+                this.dataToEdit = [];
+                this.dataToEdit = Object.assign({}, row);
+                
+                this.isEditModalActive = true;
+            },
+            updateItem: function(){
+                var query =  'mutation{'+
+                    'updateItem(id: '+this.dataToEdit.id+','+
+                    'item:{'+
+                        'name: "'+this.dataToEdit.name+'",'+
+                        'confiscation_date: "'+this.dataToEdit.confiscation_date+'",'+
+                        'units: ' +this.dataToEdit.units+','+
+                        'category: '+this.dataToEdit.category+','+
+                        'passenger: "'+this.dataToEdit.passenger+'"'+
+                    '}){name}}';
+                    
+                    
+                this.$dialog.confirm({
+                    title: 'Updating Item',
+                    message: 'Are you sure you want to <b>update</b> this item?',
+                    confirmText: 'Update',
+                    type: 'is-danger',
+                    hasIcon: true,
+                    onConfirm: () => {
+                        axios({
+                            method: "POST",
+                            url: this.api_url,
+                            data: {
+                                query: query
+                            }
+                        })
+                        .then(res => {
+                            if (res.data.errors == undefined) {
+                                this.$toast.open("Item updated!");
+                                this.fetchAllItems();
+                            } else {
+                                this.$toast.open("This Item can't be updated!");
+                            }
+                        })
+                        .catch(function(error) {
+                            console.log(error);
+                        })
+                        this.isEditModalActive = false;
+                    }
+                })
+                    
+                    
+            },
+            deleteItem: function(id){
+                var query =  'mutation{deleteItem(id: '+id+')}';
+                this.$dialog.confirm({
+                    title: 'Deleting Item',
+                    message: 'Are you sure you want to <b>delete</b> this item? This action cannot be undone.',
+                    confirmText: 'Delete Item',
+                    type: 'is-danger',
+                    hasIcon: true,
+                    onConfirm: () => {
+                        axios({
+                            method: "POST",
+                            url: this.api_url,
+                            data: {
+                                query: query
+                            }
+                        })
+                        .then(res => {
+                            if (res.data.errors == undefined) {
+                                this.$toast.open("Item deleted!");
+                                this.fetchAllItems();
+                            } else {
+                                this.$toast.open("This Item can't be deleted!");
+                            }
+                        })
+                        .catch(function(error) {
+                            console.log(error);
+                        }) 
+                    }
+                })
+            },
+            newItem: function(){
+                this.datatoCreate = [];
+                this.datatoCreate.units = 1;
+                this.datatoCreate.confiscation_date = this.date;
+                this.isCreateModalActive = true;
+            },
+            addItem: function(newItemData){
+                console.log(newItemData)
+               var query =  'mutation{'+
+                    'createItem('+
+                    'item:{'+
+                        'name: "'+newItemData.name+'",'+
+                        'confiscation_date: "'+newItemData.confiscation_date+'",'+
+                        'units: ' +newItemData.units+','+
+                        'category: '+newItemData.category+','+
+                        'passenger: "'+newItemData.passenger+'"'+
+                    '}){id}}';
+                console.log(query)
+                this.$dialog.confirm({
+                    title: 'Deleting Item',
+                    message: 'Are you sure you want to <b>add</b> this new item?',
+                    confirmText: 'Add Item',
+                    type: 'is-danger',
+                    hasIcon: true,
+                    onConfirm: () => {
+                        axios({
+                            method: "POST",
+                            url: this.api_url,
+                            data: {
+                                query: query
+                            }
+                        })
+                        .then(res => {
+                            if (res.data.errors == undefined) {
+                                this.$toast.open("Added new item");
+                                this.fetchAllItems();
+                            } else {
+                                this.$toast.open("This Item can't be created!");
+                            }
+                        })
+                        .catch(function(error) {
+                            console.log(error);
+                        }) 
+                    }
+                })
             }
         },
         mounted() {
