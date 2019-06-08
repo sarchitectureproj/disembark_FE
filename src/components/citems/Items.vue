@@ -149,6 +149,9 @@
                 <div class="card-content">
                     <div class="content">
                         
+      
+
+                        
                         <b-field label="Name">
                             <b-input v-model="datatoCreate.name" type="text" maxlength="20" minlength="1"></b-input>
                         </b-field>
@@ -235,6 +238,43 @@
                     console.log(error);
                 })
                 ;
+            },
+            checkForm: function (data) {
+                
+                  if (data.name && data.passenger && data.category) {
+                    return true;
+                  }
+            
+                  let errors = [];
+            
+                  if (!data.name) {
+                    errors.push('<li> - Name required.</li>');
+                  }
+                  if (!data.category) {
+                    errors.push('<li> - Category required.</li>');
+                  }
+                  if (!data.passenger) {
+                    errors.push('<li> - Passenger required.</li>');
+                  }
+                  
+                  let error_msg = '<b>Please correct the following error(s):</b><ul>'
+                  
+                    var i;
+                    for (i = 0; i < errors.length; i++) { 
+                      error_msg += errors[i];
+                    }
+                    error_msg+='</ul>'
+                  
+                    this.$dialog.alert({
+                        title: 'Error',
+                        message: error_msg,
+                        type: 'is-danger',
+                        hasIcon: true,
+                        icon: 'times-circle',
+                        iconPack: 'fa'
+                    })
+                  
+                  return false;
             },
             fetchAllItems(){
                 var query =  `
@@ -324,6 +364,7 @@
             editItem: function (row){
                 
                 this.dataToEdit = [];
+                this.errors = [];
                 this.dataToEdit = Object.assign({}, row);
                 
                 this.isEditModalActive = true;
@@ -339,36 +380,37 @@
                         'passenger: "'+this.dataToEdit.passenger+'"'+
                     '}){name}}';
                     
+                if(this.checkForm(this.dataToEdit)){
                     
-                this.$dialog.confirm({
-                    title: 'Updating Item',
-                    message: 'Are you sure you want to <b>update</b> this item?',
-                    confirmText: 'Update',
-                    type: 'is-danger',
-                    hasIcon: true,
-                    onConfirm: () => {
-                        axios({
-                            method: "POST",
-                            url: this.api_url,
-                            data: {
-                                query: query
-                            }
-                        })
-                        .then(res => {
-                            if (res.data.errors == undefined) {
-                                this.$toast.open("Item updated!");
-                                this.fetchAllItems();
-                            } else {
-                                this.$toast.open("This Item can't be updated!");
-                            }
-                        })
-                        .catch(function(error) {
-                            console.log(error);
-                        })
-                        this.isEditModalActive = false;
-                    }
-                })
-                    
+                    this.$dialog.confirm({
+                        title: 'Updating Item',
+                        message: 'Are you sure you want to <b>update</b> this item?',
+                        confirmText: 'Update',
+                        type: 'is-danger',
+                        hasIcon: true,
+                        onConfirm: () => {
+                            axios({
+                                method: "POST",
+                                url: this.api_url,
+                                data: {
+                                    query: query
+                                }
+                            })
+                            .then(res => {
+                                if (res.data.errors == undefined) {
+                                    this.$toast.open("Item updated!");
+                                    this.fetchAllItems();
+                                } else {
+                                    this.$toast.open("This Item can't be updated!");
+                                }
+                            })
+                            .catch(function(error) {
+                                console.log(error);
+                            })
+                            this.isEditModalActive = false;
+                        }
+                    })
+                }  
                     
             },
             deleteItem: function(id){
@@ -406,46 +448,49 @@
                 this.datatoCreate.units = 1;
                 this.datatoCreate.confiscation_date = this.date;
                 this.isCreateModalActive = true;
+                this.errors = [];
             },
             addItem: function(newItemData){
-                console.log(newItemData)
-               var query =  'mutation{'+
-                    'createItem('+
-                    'item:{'+
-                        'name: "'+newItemData.name+'",'+
-                        'confiscation_date: "'+newItemData.confiscation_date+'",'+
-                        'units: ' +newItemData.units+','+
-                        'category: '+newItemData.category+','+
-                        'passenger: "'+newItemData.passenger+'"'+
-                    '}){id}}';
-                console.log(query)
-                this.$dialog.confirm({
-                    title: 'Deleting Item',
-                    message: 'Are you sure you want to <b>add</b> this new item?',
-                    confirmText: 'Add Item',
-                    type: 'is-danger',
-                    hasIcon: true,
-                    onConfirm: () => {
-                        axios({
-                            method: "POST",
-                            url: this.api_url,
-                            data: {
-                                query: query
-                            }
-                        })
-                        .then(res => {
-                            if (res.data.errors == undefined) {
-                                this.$toast.open("Added new item");
-                                this.fetchAllItems();
-                            } else {
-                                this.$toast.open("This Item can't be created!");
-                            }
-                        })
-                        .catch(function(error) {
-                            console.log(error);
-                        }) 
-                    }
-                })
+                
+                if(this.checkForm(newItemData)){
+                   var query =  'mutation{'+
+                        'createItem('+
+                        'item:{'+
+                            'name: "'+newItemData.name+'",'+
+                            'confiscation_date: "'+newItemData.confiscation_date+'",'+
+                            'units: ' +newItemData.units+','+
+                            'category: '+newItemData.category+','+
+                            'passenger: "'+newItemData.passenger+'"'+
+                        '}){id}}';
+                    this.$dialog.confirm({
+                        title: 'Deleting Item',
+                        message: 'Are you sure you want to <b>add</b> this new item?',
+                        confirmText: 'Add Item',
+                        type: 'is-danger',
+                        hasIcon: true,
+                        onConfirm: () => {
+                            axios({
+                                method: "POST",
+                                url: this.api_url,
+                                data: {
+                                    query: query
+                                }
+                            })
+                            .then(res => {
+                                if (res.data.errors == undefined) {
+                                    this.$toast.open("Added new item");
+                                    this.fetchAllItems();
+                                } else {
+                                    this.$toast.open("This Item can't be created!");
+                                }
+                            })
+                            .catch(function(error) {
+                                console.log(error);
+                            }) 
+                        }
+                    }) 
+                }
+
             }
         },
         mounted() {
