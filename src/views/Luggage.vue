@@ -27,7 +27,7 @@
 import axios from "axios";
 import ListLuggages from "../components/Luggage/ListLuggages";
 import CreateLuggage from "../components/Luggage/CreateLuggage";
-import GRAPHQL_URL from "../../server";
+import GRAPHQL_URL from "../server";
 
 export default {
   name: "luggages",

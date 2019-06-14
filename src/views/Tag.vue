@@ -26,7 +26,7 @@
 import axios from "axios";
 import ListTags from "../components/Luggage/ListTags";
 import CreateTag from "../components/Luggage/CreateTag";
-import GRAPHQL_URL from "../../server";
+import GRAPHQL_URL from "../server";
 
 export default {
   name: "tags",
