@@ -87,10 +87,10 @@
                     <div class="content">
                         
                         <b-field label="Name">
-                            <b-input v-model="CategoryContent.name" type="text" maxlength="20" readonly></b-input>
+                            <b-input v-model="CategoryContent.name" type="text" maxlength="24" readonly></b-input>
                         </b-field>
                         <b-field label="Description">
-                            <b-input v-model="CategoryContent.description" type="text" maxlength="100" readonly></b-input>
+                            <b-input v-model="CategoryContent.description" type="text" maxlength="255" readonly></b-input>
                         </b-field>
                         <div v-if="CategoryContent.recoverable">
                             <p>This category is recoverable. The assigned point is {{CategoryDelivery.delivery_point}}</p>
@@ -111,10 +111,10 @@
                     <div class="content">
                         
                         <b-field label="Name">
-                            <b-input v-model="dataToEdit.name" type="text" maxlength="20"></b-input>
+                            <b-input v-model="dataToEdit.name" type="text" maxlength="24"></b-input>
                         </b-field>
                         <b-field label="Description">
-                            <b-input v-model="dataToEdit.description" type="text" maxlength="100"></b-input>
+                            <b-input v-model="dataToEdit.description" type="text" maxlength="255"></b-input>
                         </b-field>
                         <b-field label="Recoverable?">
                             <b-switch v-model="dataToEdit.recoverable">
@@ -139,10 +139,10 @@
                     <div class="content">
                         
                         <b-field label="Name">
-                            <b-input v-model="datatoCreate.name" type="text" maxlength="20"></b-input>
+                            <b-input v-model="datatoCreate.name" type="text" maxlength="24"></b-input>
                         </b-field>
                         <b-field label="Confiscated Date">
-                            <b-input v-model="datatoCreate.description" type="text" maxlength="100"></b-input>
+                            <b-input v-model="datatoCreate.description" type="text" maxlength="255"></b-input>
                         </b-field>
                         <b-field label="Recoverable?">
                             <b-switch v-model="datatoCreate.recoverable">
