@@ -15,37 +15,23 @@ export default {
   components: {
     Header
   },
-  // created: function() {
-  //   data: {
-      
-  //  }
-  //   // `this` points to the vm instance
-  //   axios
-  //     .post(`http://192.168.99.106:5000/graphql`, {
-  //       query: `{ allCabin {
-  //   deck_id,
-  //   postion,
-  // }}`
-  //     })
-  //     .then(res => {
-  //       console.log(res.data);
-  //     })
-  //     .catch(function(error) {
-  //       console.log(error);
-  //     });
-  // }
 };
 </script>
 
 <style lang="scss">
+//typografy
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+$family-sans-serif: "Nunito", sans-serif;
 // Import Bulma's core
 @import "~bulma/sass/utilities/_all";
 
 // Set your colors
-$primary: #8c67ef;
+$primary: #8CBCE6;
 $primary-invert: findColorInvert($primary);
 $twitter: #1b7f79;
 $twitter-invert: findColorInvert($twitter);
+$blue: #1469B3;
+$blue-invert: findColorInvert($blue);
 
 // Setup $colors to use as bulma classes (e.g. 'is-twitter')
 $colors: (
@@ -88,6 +74,10 @@ $colors: (
   "twitter": (
     $twitter,
     $twitter-invert
+  ),
+  "blue": (
+    $blue,
+    $blue-invert
   )
 );
 
