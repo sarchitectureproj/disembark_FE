@@ -50,7 +50,8 @@ export default {
   data: function() {
     return {
       username: "",
-      password: ""
+      password: "",
+      isFullPage: true
     };
   },
 
@@ -77,20 +78,24 @@ export default {
           password:"${this.password}"
         })  
       }`;
+      const loadingComponent = this.$loading.open({
+        container: this.isFullPage ? null : this.$refs.element.$el
+      });
       // if (this.validateUsername) {
       axios
         .post(GRAPHQL_URL, { query: query })
         .then(res => {
           const token = res.data.data.login;
-          if (token !== -1) {
+          console.log(token)
+          if (token !== "-1") {
             localStorage.setItem("user", token);
             this.$toast.open({
               message: "login is successful",
               type: "is-success"
             });
             setTimeout(() => {
-              this.$router.push("Home");
-              location.reload();
+              // this.$router.push("Home");
+              // location.reload();
             }, 600);
           } else {
             this.$toast.open({
@@ -99,6 +104,7 @@ export default {
               position: "is-bottom",
               type: "is-danger"
             });
+            loadingComponent.close()
           }
         })
         .catch(function(error) {
