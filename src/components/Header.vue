@@ -16,22 +16,22 @@
       <div class="navbar-start">
         <a class="navbar-item"></a>
         <router-link class="navbar-item" to="/">
-          <i class="fas fa-3x fa-ship"></i>Home
+          <i class="fas fa-2x fa-ship"></i>Home
         </router-link>
         <router-link class="navbar-item" to="/passengers">
-          <i class="fas fa-3x fa-users"></i>Passengers
+          <i class="fas fa-2x fa-users"></i>Passengers
         </router-link>
         <router-link class="navbar-item" to="/luggage">
-          <i class="fas fa-3x fa-luggage-cart"></i>Luggage
+          <i class="fas fa-2x fa-luggage-cart"></i>Luggage
         </router-link>
         <router-link class="navbar-item" to="/deck">
-          <i class="fas fa-3x fa-layer-group"></i>Deck
+          <i class="fas fa-2x fa-layer-group"></i>Deck
         </router-link>
         <router-link class="navbar-item" to="/confiscated_items">
-          <i class="fas fa-3x fa-exclamation"></i> Confiscated Items
+          <i class="fas fa-2x fa-exclamation"></i> Confiscated Items
         </router-link>
         <router-link class="navbar-item" to="/meeting_points">
-          <i class="fas fa-3x fa-street-view"></i>Meeting points
+          <i class="fas fa-2x fa-street-view"></i>Meeting points
         </router-link>
 
         <!-- nav-start -->
