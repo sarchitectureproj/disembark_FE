@@ -1,44 +1,48 @@
 <template>
-  <nav class="navbar is-twitter" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
-      <button
-        @click="makeBurger"
-        class="button navbar-burger is-info"
-        data-target="navMenu"
-        v-bind:class="{ 'is-active': activator }"
-      >
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-    </div>
-    <div id="navMenu" class="navbar-menu" v-bind:class="{ 'is-active': activator }">
-      <div class="navbar-start">
-        <a class="navbar-item"></a>
-        <router-link class="navbar-item" to="/">
-          <i class="fas fa-2x fa-ship"></i>Home
-        </router-link>
-        <router-link class="navbar-item" to="/passengers">
-          <i class="fas fa-2x fa-users"></i>Passengers
-        </router-link>
-        <router-link class="navbar-item" to="/luggage">
-          <i class="fas fa-2x fa-luggage-cart"></i>Luggage
-        </router-link>
-        <router-link class="navbar-item" to="/deck">
-          <i class="fas fa-2x fa-layer-group"></i>Deck
-        </router-link>
-        <router-link class="navbar-item" to="/confiscated_items">
-          <i class="fas fa-2x fa-exclamation"></i> Confiscated Items
-        </router-link>
-        <router-link class="navbar-item" to="/meeting_points">
-          <i class="fas fa-2x fa-street-view"></i>Meeting points
-        </router-link>
+  <div>
+    <div v-if="isLogin()">
+      <nav class="navbar is-twitter" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+          <button
+            @click="makeBurger"
+            class="button navbar-burger is-info"
+            data-target="navMenu"
+            v-bind:class="{ 'is-active': activator }"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+        <div id="navMenu" class="navbar-menu" v-bind:class="{ 'is-active': activator }">
+          <div class="navbar-start">
+            <a class="navbar-item"></a>
+            <router-link class="navbar-item" to="/">
+              <i class="fas fa-2x fa-ship"></i>Home
+            </router-link>
+            <router-link class="navbar-item" to="/passengers">
+              <i class="fas fa-2x fa-users"></i>Passengers
+            </router-link>
+            <router-link class="navbar-item" to="/luggage">
+              <i class="fas fa-2x fa-luggage-cart"></i>Luggage
+            </router-link>
+            <router-link class="navbar-item" to="/deck">
+              <i class="fas fa-2x fa-layer-group"></i>Deck
+            </router-link>
+            <router-link class="navbar-item" to="/confiscated_items">
+              <i class="fas fa-2x fa-exclamation"></i> Confiscated Items
+            </router-link>
+            <router-link class="navbar-item" to="/meeting_points">
+              <i class="fas fa-2x fa-street-view"></i>Meeting points
+            </router-link>
 
-        <!-- nav-start -->
-      </div>
-      <!-- nav end -->
+            <!-- nav-start -->
+          </div>
+          <!-- nav end -->
+        </div>
+      </nav>
     </div>
-  </nav>
+  </div>
 </template>
 
 <script>
@@ -54,6 +58,13 @@ export default {
     makeBurger() {
       this.activator = !this.activator;
       return this.activator;
+    },
+    isLogin() {
+      const loggedIn = localStorage.getItem("user");
+      return loggedIn;
+    },
+    logOut(){
+      localStorage.removeItem('user');
     }
   }
 };
