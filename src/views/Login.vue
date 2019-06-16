@@ -90,7 +90,7 @@ export default {
           if (token !== "-1") {
             localStorage.setItem("user", token);
             this.$toast.open({
-              message: "login is successful",
+              message: "Login is successful",
               type: "is-success"
             });
             setTimeout(() => {
@@ -100,7 +100,7 @@ export default {
           } else {
             this.$toast.open({
               duration: 5000,
-              message: `wrong password`,
+              message: `wrong password/username`,
               position: "is-bottom",
               type: "is-danger"
             });
