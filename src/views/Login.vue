@@ -94,8 +94,8 @@ export default {
               type: "is-success"
             });
             setTimeout(() => {
-              // this.$router.push("Home");
-              // location.reload();
+              this.$router.push("Home");
+              location.reload();
             }, 600);
           } else {
             this.$toast.open({

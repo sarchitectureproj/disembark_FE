@@ -35,9 +35,16 @@
             <router-link class="navbar-item" to="/meeting_points">
               <i class="fas fa-2x fa-street-view"></i>Meeting points
             </router-link>
-
             <!-- nav-start -->
           </div>
+          <div class="navbar-end">
+            
+            <button class="button is-dark" @click="logOut">
+              <b-icon pack="fas" icon="arrow-circle-down"></b-icon>
+              <span>Log out</span>
+            </button>
+          </div>
+
           <!-- nav end -->
         </div>
       </nav>
@@ -63,8 +70,10 @@ export default {
       const loggedIn = localStorage.getItem("user");
       return loggedIn;
     },
-    logOut(){
-      localStorage.removeItem('user');
+    logOut() {
+      localStorage.removeItem("user");
+      this.$router.push("Home");
+      location.reload();
     }
   }
 };
