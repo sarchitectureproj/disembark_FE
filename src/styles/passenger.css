@@ -8,7 +8,9 @@
 }
 
 h2{
+    margin-left: 0%;
     margin-top: 2%;
+    margin-bottom: 2%;
     color: black;
     font-size: 3.5vw;
 }
@@ -46,8 +48,8 @@ label{
 }
 
 input{
-    width: 80%;
-    line-height: 19px;
+    width: 100%;
+    line-height: 22px;
     border: 1px solid #cfd0d1;
 }
 
@@ -59,12 +61,6 @@ input{
     cursor: pointer;
     font-size: 1.2vw;
     background-color: black;
-}
-
-#updateForm {
-    margin-top: 5%;
-    margin-bottom: 5%;
-    border: 1px solid #8b8d8e;
 }
 
 #updateInput {
@@ -79,4 +75,31 @@ input{
     margin-left: 0%;
     cursor: pointer;
     background-color: black;
+}
+
+section {
+    padding-left: 2%;
+}
+
+#createBtn {
+    color: black;
+    font-size: 1.2vw;
+    margin-top: 5%;
+    margin-left: 2%;
+    border: 1px solid #e5e6e8;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    border-radius: 2%;
+    background-color: #e5e6e8;
+}
+
+#createBtn:hover{
+    background-color: #cccdce;
+}
+
+.mainDiv {
+    padding-bottom: 5%;
+    margin-top: 3%;
+    margin-left: 10%;
+    margin-right: 10%;
 }

@@ -27,29 +27,13 @@ export default new Router({
         {
             path: '/passengers',
             name: 'passenger',
-            component: () => import('./views/Passenger/IndexPassenger.vue')
+            component: () => import('./views/Passenger/ShowPassenger.vue')
         },
         {
             path: '/passengers/new',
             name: 'new passenger',
             component: () => import('./views/Passenger/NewPassenger.vue')
         },
-        {
-            path: '/passengers/edit',
-            name: 'edit passenger',
-            component: () => import('./views/Passenger/EditPassenger.vue')
-        },
-        {
-            path: '/passengers/show',
-            name: 'show passenger',
-            component: () => import('./views/Passenger/ShowPassenger.vue')
-        },
-        {
-            path: '/passengers/delete',
-            name: 'show passenger',
-            component: () => import('./views/Passenger/DeletePassenger.vue')
-        },
-
         {
             path: '/confiscated_items',
             name: 'Confiscated Items Menu',

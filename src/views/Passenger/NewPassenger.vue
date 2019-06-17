@@ -1,57 +1,78 @@
 <template>
-		<div>
-				<form id="createForm">
-					<h2>
-						Create Passenger
-					</h2>
-					<div class="columns">
-						<div class="column">
-							<div class="form-group">
-								<label for="">First Name</label>
-								<input v-model="first_name_input" type="text" placeholder="First Name">
-							</div>
-							<div class="form-group">
-								<label for="">Last Name</label>
-								<input v-model="last_name_input" type="text" placeholder="Last Name">
-							</div>
-							<div class="form-group">
-								<label for="">Age</label>
-								<input v-model="age_input" type="text" placeholder="Age">
-							</div>
-							<div class="form-group">
-								<label for="">Gender</label>
-								<input v-model="gender_input" type="text" placeholder="Gender">
-							</div>
-							<div class="form-group">
-								<label for="">Email</label>
-								<input v-model="email_input" type="text" placeholder="Email">
-							</div>
-						</div>
-						<div class="column">
-							<div class="form-group">
-								<label for="">Phone Number</label>
-								<input v-model="phone_number_input" type="text" placeholder="Phone Number">
-							</div>
-							<div class="form-group">
-								<label for="">Birthdate (DD-MM-YYYY)</label>
-								<input v-model="birthdate_input" type="text" placeholder="Birthdate">
-							</div>
-							<div class="form-group">
-								<label for="">Occupation</label>
-								<input v-model="occupation_input" type="text" placeholder="Occupation">
-							</div>
-							<div class="form-group">
-								<label for="">Nationality</label>
-								<input v-model="nationality_input" type="text" placeholder="Nationality">
-							</div>
-							<div class="form-group">
-								<label for="">Native Language</label>
-								<input v-model="native_language_input" type="text" placeholder="Native Language">
-							</div>
-						</div>
-					</div>
-					 <input id="createBtn" type="button" value="Create" @click="crearPasajero"> 
-				</form>
+		<div class="mainDiv">
+			<h2>Create Passenger</h2>
+			<div class="field">
+				<label class="label">First Name</label>
+				<div class="control">
+					<input v-model="first_name_input" class="input" type="text" placeholder="First Name">
+				</div>
+			</div>
+			<div class="field">
+				<label class="label">Last Name</label>
+				<div class="control">
+					<input v-model="last_name_input"  class="input" type="text" placeholder="Last Name">
+				</div>
+			</div>
+			<div class="field">
+				<label class="label">Age</label>
+				<div class="control">
+					<input v-model="age_input"  class="input" type="text" placeholder="Age">
+				</div>
+			</div>
+			<div class="field">
+				<label class="label">Gender</label>
+				<div class="control">
+					<div class="control">
+					<input v-model="gender_input"  class="input" type="text" placeholder="Age">
+				</div>
+				</div>
+			</div>
+			<div class="field">
+				<label class="label">Email</label>
+				<div class="control">
+					<input v-model="email_input" class="input" type="text" placeholder="Email">
+				</div>
+			</div>
+			<div class="field">
+				<label class="label">Phone Number</label>
+				<div class="control">
+					<input v-model="phone_number_input" class="input" type="text" placeholder="Phone Number">
+				</div>
+			</div>
+			<div class="field">
+				<label for="">Birthdate (DD-MM-YYYY)</label>
+				<div class="control">
+					<input v-model="birthdate_input" class="input" type="text" placeholder="Birthdate">
+				</div>
+			</div>				
+			<div class="field">
+				<label class="label">Occupation</label>
+				<div class="control">
+					<input v-model="occupation_input" class="input" type="text" placeholder="Occupation">
+				</div>
+			</div>
+			<div class="field">
+				<label class="label">Nationality</label>
+				<div class="control">
+					<input v-model="nationality_input" class="input" type="text" placeholder="Nationality">
+				</div>
+			</div>
+			<div class="field">
+				<label class="label">Native Language</label>
+				<div class="control">
+					<input v-model="native_language_input" class="input" type="text" placeholder="Native Language">
+				</div>
+			</div>
+			<div class="field is-grouped">
+				<div class="control">
+					<button class="button is-link" @click="crearPasajero">Submit</button>
+				</div>
+				<div class="control">
+					<router-link to="/passengers">
+						<button class="button is-text">Back</button>
+					</router-link>
+				</div>
+			</div>
 		</div>
 </template>
 
