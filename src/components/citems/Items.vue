@@ -91,16 +91,16 @@
                     <div class="content">
                         
                         <b-field label="Name">
-                            <b-input v-model="itemContent.name" type="text" maxlength="20" minlength="1" readonly></b-input>
+                            <b-input v-model="itemContent.name" type="text" maxlength="24" readonly></b-input>
                         </b-field>
                         <b-field label="Confiscation Date">
-                            <b-input v-model="itemContent.confiscation_date" type="date" maxlength="20" minlength="1" readonly></b-input>
+                            <b-input v-model="itemContent.confiscation_date" type="date" readonly></b-input>
                         </b-field>
                         <b-field label="Units">
-                            <b-input v-model="itemContent.units" type="number" maxlength="20" minlength="1" readonly></b-input>
+                            <b-input v-model="itemContent.units" type="number" readonly></b-input>
                         </b-field>
                         <b-field label="Category">
-                            <b-input v-model="itemCategory.name" type="text" maxlength="20" minlength="1" readonly></b-input>
+                            <b-input v-model="itemCategory.name" type="text" readonly></b-input>
                         </b-field>
                         <div v-if="itemCategory.recoverable">
                             <p>You can recover your item on {{itemDelivery.delivery_point}}</p>
@@ -121,19 +121,19 @@
                     <div class="content">
                         
                         <b-field label="Name">
-                            <b-input v-model="dataToEdit.name" type="text" maxlength="20" minlength="1"></b-input>
+                            <b-input v-model="dataToEdit.name" type="text" maxlength="24" ></b-input>
                         </b-field>
                         <b-field label="Confiscated Date">
                             <b-input v-model="dataToEdit.confiscation_date" type="date" :max="date" min="2019-01-01"></b-input>
                         </b-field>
                         <b-field label="Units">
-                            <b-numberinput  v-model="dataToEdit.units" min="1" max="100"></b-numberinput >
+                            <b-numberinput  v-model="dataToEdit.units" min="1" max="50"></b-numberinput >
                         </b-field>
                         <b-field label="Category">
                             <b-input v-model="dataToEdit.category" type="number" ></b-input>
                         </b-field>
                         <b-field label="Passenger ID">
-                            <b-input v-model="dataToEdit.passenger" type="text" maxlength="2" minlength="1"></b-input>
+                            <b-input v-model="dataToEdit.passenger" type="text" maxlength="24"></b-input>
                         </b-field>
 
                         <button class="button is-medium is-danger" @click="updateItem">
@@ -153,19 +153,19 @@
 
                         
                         <b-field label="Name">
-                            <b-input v-model="datatoCreate.name" type="text" maxlength="20" minlength="1"></b-input>
+                            <b-input v-model="datatoCreate.name" type="text" maxlength="24"></b-input>
                         </b-field>
                         <b-field label="Confiscated Date">
                             <b-input v-model="datatoCreate.confiscation_date" type="date" :max="date" min="2019-01-01" default="date"></b-input>
                         </b-field>
                         <b-field label="Units">
-                            <b-numberinput  v-model="datatoCreate.units" min="1" max="100" default="1"></b-numberinput >
+                            <b-numberinput  v-model="datatoCreate.units" min="1" max="50" default="1"></b-numberinput >
                         </b-field>
                         <b-field label="Category">
                             <b-input v-model="datatoCreate.category" type="number" ></b-input>
                         </b-field>
                         <b-field label="Passenger ID">
-                            <b-input v-model="datatoCreate.passenger" type="text" maxlength="2" minlength="1"></b-input>
+                            <b-input v-model="datatoCreate.passenger" type="text" maxlength="24" ></b-input>
                         </b-field>
 
                         <button class="button is-medium is-danger" @click="addItem(datatoCreate)">

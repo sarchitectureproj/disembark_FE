@@ -83,7 +83,7 @@
                     <div class="content">
                         
                         <b-field label="Delivery Point">
-                            <b-input v-model="DeliveryContent.delivery_point" type="text" maxlength="20" readonly></b-input>
+                            <b-input v-model="DeliveryContent.delivery_point" type="text" maxlength="24" readonly></b-input>
                         </b-field>
                         <b-field label="Open Time">
                             <b-input v-model="DeliveryContent.open_time" type="time" readonly></b-input>
@@ -103,7 +103,7 @@
                     <div class="content">
                         
                         <b-field label="Delivery Point">
-                            <b-input v-model="dataToEdit.delivery_point" type="text" maxlength="20"></b-input>
+                            <b-input v-model="dataToEdit.delivery_point" type="text" maxlength="24"></b-input>
                         </b-field>
                         <b-field label="Open Time">
                             <b-input v-model="DeliveryContent.open_time" type="time" step="1"></b-input>
@@ -127,7 +127,7 @@
                     <div class="content">
                         
                         <b-field label="Delivery Point">
-                            <b-input v-model="datatoCreate.delivery_point" type="text" maxlength="20"></b-input>
+                            <b-input v-model="datatoCreate.delivery_point" type="text" maxlength="24"></b-input>
                         </b-field>
                         <b-field label="Open Time">
                             <b-input v-model="datatoCreate.open_time" type="time" step="1"></b-input>

@@ -8,7 +8,7 @@ Vue.use(Buefy)
 Vue.config.productionTip = false
 
 Vue.prototype.$axios = axios;
-Vue.prototype.$API_URL = 'http://192.168.99.102:5000/graphql';
+Vue.prototype.$API_URL = 'http://dnode2.centralus.cloudapp.azure.com/graphql';
 
 
 new Vue({
