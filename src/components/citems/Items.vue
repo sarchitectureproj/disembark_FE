@@ -6,11 +6,21 @@
                 <h1 class="title is-centered">Items</h1>
             </div>
             <div class="column  is-fullwidth">
-                <a @click="newItem" class="button is-link is-outlined is-centered">Create Item</a>
+                <a v-if="deck" @click="newItem" class="button is-link is-outlined is-centered">Create Item</a>
+                <div v-else class="field has-addons is-centered">
+                  <div class="control">
+                    <input class="input" v-model="passSearch" type="text" placeholder="Passenger">
+                  </div>
+                  <div class="control">
+                    <a class="button is-info" @click="fetchAllItemsbyPass">
+                      Search
+                    </a>
+                  </div>
+                </div>
             </div>
         </div>
         
-        <section>
+        <section v-if="deck">
             <b-table
                 :data="isEmpty ? [] : data"
                 :bordered="isBordered"
@@ -62,6 +72,74 @@
                             <a @click="viewItem(props.row)"><span class="icon is-small"><i class="fas fa-eye"></i></span></a>
                             <a @click="editItem(props.row)"><span class="icon is-small"><i class="fas fa-edit"></i></span></a>
                             <a @click="deleteItem(props.row.id)"><span class="icon is-small"><i class="fas fa-trash"></i></span></a>  
+                        </div>
+                    </b-table-column>
+    
+                </template>
+    
+                <template slot="empty">
+                    <section class="section">
+                        <div class="content has-text-grey has-text-centered">
+                            <p>
+                                <b-icon
+                                    icon="emoticon-sad"
+                                    size="is-large">
+                                </b-icon>
+                            </p>
+                            <p>Nothing here.</p>
+                        </div>
+                    </section>
+                </template>
+                
+            </b-table>
+        </section>
+        
+        <section v-else>
+            <b-table
+                :data="isEmpty ? [] : passengerData"
+                :bordered="isBordered"
+                :striped="isStriped"
+                :narrowed="isNarrowed"
+                :hoverable="isHoverable"
+                :loading="isLoading"
+                :focusable="isFocusable"
+                :mobile-cards="hasMobileCards"
+                
+                :paginated="isPaginated"
+                :per-page="perPage"
+                :current-page.sync="currentPage"
+                :pagination-simple="isPaginationSimple"
+                :default-sort-direction="defaultSortDirection"
+                default-sort="id"
+                aria-next-label="Next page"
+                aria-previous-label="Previous page"
+                aria-page-label="Page"
+                aria-current-label="Current page">
+    
+                <template slot-scope="props">
+                    <b-table-column field="id" label="ID" width="40" sortable numeric>
+                        {{ props.row.id }}
+                    </b-table-column>
+    
+                    <b-table-column field="name" label="Name" sortable>
+                        {{ props.row.name }}
+                    </b-table-column>
+    
+                    <b-table-column field="confiscation_date" label="Confiscation Date" sortable>
+                        {{ props.row.confiscation_date }}
+                    </b-table-column>
+    
+                    <b-table-column field="units" label="Units" sortable>
+                        {{ props.row.units }}
+                    </b-table-column>
+    
+                    <b-table-column field="category" label="Category" sortable>
+                        {{ props.row.category }}
+                    </b-table-column>
+                    
+                    <b-table-column field="|" label="CRUD"  width="80">
+                        <div>
+                            <a @click="viewItem(props.row)"><span class="icon is-small"><i class="fas fa-eye"></i></span></a>
                         </div>
                     </b-table-column>
     
@@ -189,8 +267,12 @@
         data() {
             const data = [
             ]
+            const passengerData = []
             return {
+                deck: false,
+                passSearch: '0',
                 data,
+                passengerData,
                 date: new Date().toISOString().slice(0,10),
                 //b-table variables
                 isEmpty: false,
@@ -298,6 +380,34 @@
                     })
                     .then(res => {
                         this.data = res.data.data.allItems;
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    })
+                    
+            },
+            fetchAllItemsbyPass(){
+                var query =  `
+                    {
+                        allItemsbyPass(passenger: "`+this.passSearch+`"){
+                            id,
+                            name,
+                            confiscation_date,
+                            units,
+                            category,
+                            passenger
+                        } 
+                    }`;
+                    
+                    axios({
+                        method: "POST",
+                        url: this.api_url,
+                        data: {
+                            query: query
+                        }
+                    })
+                    .then(res => {
+                        this.passengerData = res.data.data.allItemsbyPass;
                     })
                     .catch(function(error) {
                         console.log(error);

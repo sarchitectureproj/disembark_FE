@@ -2,7 +2,7 @@
   <div>
     </br>
     <div class="tabs is-centered is-boxed is-fullwidth">
-      <ul>
+      <ul v-if="deck">
         <li v-on:click="currentComponent='Items'" v-bind:class="compActive[0]"><a>Items</a></li>
         <li v-on:click="currentComponent='Categories'" v-bind:class="compActive[1]"><a>Categories</a></li>
         <li v-on:click="currentComponent='Deliveries'" v-bind:class="compActive[2]"><a>Deliveries</a></li>
@@ -18,9 +18,8 @@
   import Deliveries from '../components/citems/Deliveries'
   import GRAPHQL_URL from '../server'
   
-  const ip = '34.207.111.182';
+  const ip = '35.172.191.118';
   //const API_URL = 'http://'+ip+':5000/graphql';
-  //const API_URL = 'http://dnode2.centralus.cloudapp.azure.com:5000/graphql';
   const API_URL = GRAPHQL_URL;
   export default {
     name: "CItems",
@@ -31,6 +30,7 @@
     },
     data: function() {
       return {
+        deck: false,
         currentComponent: 'Items',
         compActive: ["is-active","",""]
       };
