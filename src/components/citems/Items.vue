@@ -6,7 +6,17 @@
                 <h1 class="title is-centered">Items</h1>
             </div>
             <div class="column  is-fullwidth">
-                <a @click="newItem" class="button is-link is-outlined is-centered">Create Item</a>
+                <a @click="newItem" class="button is-link is-outlined">Create Item</a>
+                <div class="field has-addons">
+                  <div class="control">
+                    <input class="input" v-model="passSearch" type="text" placeholder="Passenger">
+                  </div>
+                  <div class="control">
+                    <a class="button is-info" @click="fetchAllItemsbyPass">
+                      Search
+                    </a>
+                  </div>
+              </div>
             </div>
         </div>
         
@@ -191,6 +201,7 @@
             ]
             return {
                 data,
+                passSearch: '0',
                 date: new Date().toISOString().slice(0,10),
                 //b-table variables
                 isEmpty: false,
@@ -275,6 +286,34 @@
                     })
                   
                   return false;
+            },
+            fetchAllItemsbyPass(){
+                var query =  `
+                    {
+                        allItemsbyPass(passenger: "`+this.passSearch+`"){
+                            id,
+                            name,
+                            confiscation_date,
+                            units,
+                            category,
+                            passenger
+                        } 
+                    }`;
+                    
+                    axios({
+                        method: "POST",
+                        url: this.api_url,
+                        data: {
+                            query: query
+                        }
+                    })
+                    .then(res => {
+                        this.data  = res.data.data.allItemsbyPass;
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    })
+                    
             },
             fetchAllItems(){
                 var query =  `
