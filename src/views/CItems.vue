@@ -18,7 +18,7 @@
   import Deliveries from '../components/citems/Deliveries'
   import GRAPHQL_URL from '../server'
   
-  const ip = '54.159.80.17';
+  const ip = '34.226.202.46';
   const API_URL = 'http://'+ip+':5000/graphql';
   //const API_URL = 'http://dnode2.centralus.cloudapp.azure.com:5000/graphql';
   //const API_URL = GRAPHQL_URL;

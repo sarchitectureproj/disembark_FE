@@ -2,11 +2,10 @@
     <div class="container is-desktop">
     
         <div class="title notification is-success table-Head columns is-marginless">
-            <div class="column  is-fullwidth">
-                <h1 class="title is-centered">Deliveries</h1>
-            </div>
-            <div class="column  is-fullwidth">
+            <div class="column">
                 <a @click="newDelivery" class="button is-link is-outlined is-centered">Create Delivery</a>
+            </div>
+            <div class="column">
             </div>
         </div>
         
@@ -49,11 +48,11 @@
                         {{ props.row.delivery_point }}
                     </b-table-column>
                     
-                    <b-table-column field="|" label="CRUD" width="80">
-                        <div>
-                            <a @click="viewDelivery(props.row)"><span class="icon is-small"><i class="fas fa-eye"></i></span></a>
-                            <a @click="editDelivery(props.row)"><span class="icon is-small"><i class="fas fa-edit"></i></span></a>
-                            <a @click="deleteDelivery(props.row.id)"><span class="icon is-small"><i class="fas fa-trash"></i></span></a>  
+                    <b-table-column field="|" label="Control" width="160">
+                        <div class="buttons">
+                            <b-button type="is-info" @click="viewDelivery(props.row)" icon-right="eye" /> 
+                            <b-button type="is-warning" @click="editDelivery(props.row)" icon-right="pen" /> 
+                            <b-button type="is-danger" @click="deleteDelivery(props.row.id)" icon-right="delete" /> 
                         </div>
                     </b-table-column>
     

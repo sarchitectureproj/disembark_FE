@@ -2,11 +2,10 @@
     <div class="container is-desktop">
     
         <div class="title notification is-success table-Head columns is-marginless">
-            <div class="column  is-fullwidth">
-                <h1 class="title is-centered">Categories</h1>
+            <div class="column">
+              <a @click="newCategory" class="button is-link is-outlined">Create Category</a>
             </div>
-            <div class="column  is-fullwidth">
-                <a @click="newCategory" class="button is-link is-outlined is-centered">Create Category</a>
+            <div class="column">
             </div>
         </div>
         
@@ -53,11 +52,11 @@
                         {{ props.row.delivery }}
                     </b-table-column>
                     
-                    <b-table-column field="|" label="CRUD" width="80">
-                        <div>
-                            <a @click="viewCategory(props.row)"><span class="icon is-small"><i class="fas fa-eye"></i></span></a>
-                            <a @click="editCategory(props.row)"><span class="icon is-small"><i class="fas fa-edit"></i></span></a>
-                            <a @click="deleteCategory(props.row.id)"><span class="icon is-small"><i class="fas fa-trash"></i></span></a>  
+                    <b-table-column field="|" label="Control" width="160">
+                        <div class="buttons">
+                            <b-button type="is-info" @click="viewCategory(props.row)" icon-right="eye" /> 
+                            <b-button type="is-warning" @click="editCategory(props.row)" icon-right="pen" /> 
+                            <b-button type="is-danger" @click="deleteCategory(props.row.id)" icon-right="delete" /> 
                         </div>
                     </b-table-column>
     

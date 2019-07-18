@@ -2,22 +2,19 @@
     <div class="container is-desktop">
     
         <div class="title notification is-success table-Head columns is-marginless">
-            <div class="column  is-fullwidth">
-                <h1 class="title is-centered">Items</h1>
-            </div>
-            <div class="column  is-fullwidth">
+            <div class="column">
                 <a @click="newItem" class="button is-link is-outlined">Create Item</a>
-                <div class="field has-addons">
-                  <div class="control">
-                    <input class="input" v-model="passSearch" type="text" placeholder="Passenger">
-                  </div>
-                  <div class="control">
-                    <a class="button is-info" @click="fetchAllItemsbyPass">
-                      Search
-                    </a>
-                  </div>
-              </div>
             </div>
+            <div class="field has-addons column">
+              <div class="control">
+                <input class="input" v-model="passSearch" type="text" placeholder="Passenger">
+              </div>
+              <div class="control">
+                <a class="button is-info" @click="fetchAllItemsbyPass">
+                  Search
+                </a>
+              </div>
+          </div>
         </div>
         
         <section>
@@ -67,11 +64,11 @@
                         {{ props.row.passenger }}
                     </b-table-column>
                     
-                    <b-table-column field="|" label="CRUD"  width="80">
-                        <div>
-                            <a @click="viewItem(props.row)"><span class="icon is-small"><i class="fas fa-eye"></i></span></a>
-                            <a @click="editItem(props.row)"><span class="icon is-small"><i class="fas fa-edit"></i></span></a>
-                            <a @click="deleteItem(props.row.id)"><span class="icon is-small"><i class="fas fa-trash"></i></span></a>  
+                    <b-table-column field="|" label="Control" width="160">
+                        <div class="buttons">
+                            <b-button type="is-info" @click="viewItem(props.row)" icon-right="eye" /> 
+                            <b-button type="is-warning" @click="editItem(props.row)" icon-right="pen" /> 
+                            <b-button type="is-danger" @click="deleteItem(props.row.id)" icon-right="delete" /> 
                         </div>
                     </b-table-column>
     
@@ -201,7 +198,7 @@
             ]
             return {
                 data,
-                passSearch: '0',
+                passSearch: '',
                 date: new Date().toISOString().slice(0,10),
                 //b-table variables
                 isEmpty: false,
